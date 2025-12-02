@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Basic styles */
+* {
+  border-color: #e5e7eb;
+}
+
+body {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #cffafe 100%);
+  color: #1f2937;
+  min-height: 100vh;
+}
+
+/* Custom gradient backgrounds */
+.bg-medical-gradient {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.bg-health-gradient {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.bg-care-gradient {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
