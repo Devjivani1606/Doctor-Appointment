@@ -90,7 +90,6 @@ const BookingPage = () => {
             });
             
             if (res.data.success) {
-                // Server returns success=true when slot is available
                 setIsAvailable(true);
                 alert(res.data.message || 'This slot is available!');
             } else {
@@ -137,7 +136,9 @@ const BookingPage = () => {
 
     useEffect(() => {
         getDoctorById();
-        getCurrentUser();
+        if (localStorage.getItem('token')) {
+            getCurrentUser();
+        }
     }, [doctorId]);
 
     useEffect(() => {
@@ -153,8 +154,7 @@ const BookingPage = () => {
     };
 
     return (
-    <div className="flex flex-col bg-gray-50 min-h-full">
-
+        <div className="flex flex-col bg-gray-50 min-h-full">
             <div className="bg-white shadow">
                 <div className="container mx-auto px-4 py-4">
                     <button 
@@ -175,7 +175,7 @@ const BookingPage = () => {
                             <div className="space-y-4">
                                 <div className="flex items-start gap-4">
                                     <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <span className="text-white text-2xl font-bold">👨‍⚕️</span>
+                                        <span className="text-white text-2xl font-bold">👨⚕️</span>
                                     </div>
                                     <div>
                                         <h3 className="text-xl font-bold">Dr. {doctor.name}</h3>
@@ -202,68 +202,83 @@ const BookingPage = () => {
 
                     {/* Booking Card */}
                     <div className="bg-white rounded-lg shadow-md p-6">
-                        <h2 className="text-2xl font-bold mb-6">Book Appointment</h2>
-                        <div className="space-y-6">
-                            {/* Date Selection */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Select Date</label>
-                                <input
-                                    type="date"
-                                    value={date}
-                                    onChange={(e) => setDate(e.target.value)}
-                                    min={getTodayDate()}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
+                        {!localStorage.getItem('token') ? (
+                            <div className="text-center py-8">
+                                <div className="mb-4">
+                                    <span className="text-6xl">🔒</span>
+                                </div>
+                                <h3 className="text-xl font-bold text-gray-900 mb-2">Login Required</h3>
+                                <p className="text-gray-600 mb-4">You need to login to book an appointment</p>
+                                <button 
+                                    onClick={() => navigate('/login')}
+                                    className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+                                >
+                                    Login Now
+                                </button>
                             </div>
-
-                            {/* Time Slots */}
+                        ) : (
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-3">Select Time Slot</label>
-                                <div className="grid grid-cols-2 gap-2">
-                                    {timeSlots.map((slot) => (
+                                <h2 className="text-2xl font-bold mb-6">Book Appointment</h2>
+                                <div className="space-y-6">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Select Date</label>
+                                        <input
+                                            type="date"
+                                            value={date}
+                                            onChange={(e) => setDate(e.target.value)}
+                                            min={getTodayDate()}
+                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-3">Select Time Slot</label>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {timeSlots.map((slot) => (
+                                                <button
+                                                    key={slot}
+                                                    onClick={() => setTime(slot)}
+                                                    disabled={isTimeInPast(date, slot)}
+                                                    className={`py-2 px-4 rounded-lg font-medium transition ${
+                                                        isTimeInPast(date, slot)
+                                                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                            : time === slot
+                                                            ? 'bg-blue-600 text-white'
+                                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                                    }`}
+                                                >
+                                                    {slot}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-3">
                                         <button
-                                            key={slot}
-                                            onClick={() => setTime(slot)}
-                                            disabled={isTimeInPast(date, slot)}
-                                            className={`py-2 px-4 rounded-lg font-medium transition ${
-                                                isTimeInPast(date, slot)
-                                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                                    : time === slot
-                                                    ? 'bg-blue-600 text-white'
-                                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                            }`}
+                                            onClick={checkAvailability}
+                                            disabled={!date || !time}
+                                            className="w-full py-2 px-4 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:bg-gray-300 disabled:cursor-not-allowed font-medium transition"
                                         >
-                                            {slot}
+                                            Check Availability
                                         </button>
-                                    ))}
+
+                                        {isAvailable && (
+                                            <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                                                <p className="text-sm text-green-700 font-medium">✓ Slot is available!</p>
+                                            </div>
+                                        )}
+
+                                        <button
+                                            onClick={handleBooking}
+                                            disabled={!isAvailable || loading}
+                                            className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed font-medium transition"
+                                        >
+                                            {loading ? 'Booking...' : 'Confirm Booking'}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-
-                            {/* Availability Check and Booking Buttons */}
-                            <div className="space-y-3">
-                                <button
-                                    onClick={checkAvailability}
-                                    disabled={!date || !time}
-                                    className="w-full py-2 px-4 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:bg-gray-300 disabled:cursor-not-allowed font-medium transition"
-                                >
-                                    Check Availability
-                                </button>
-
-                                {isAvailable && (
-                                    <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-                                        <p className="text-sm text-green-700 font-medium">✓ Slot is available!</p>
-                                    </div>
-                                )}
-
-                                <button
-                                    onClick={handleBooking}
-                                    disabled={!isAvailable || loading}
-                                    className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed font-medium transition"
-                                >
-                                    {loading ? 'Booking...' : 'Confirm Booking'}
-                                </button>
-                            </div>
-                        </div>
+                        )}
                     </div>
 
                     {/* User Information Card */}

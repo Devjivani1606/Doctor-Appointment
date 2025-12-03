@@ -93,8 +93,8 @@ const HomePage = () => {
           </div>
 
           {/* Right Content - Image */}
-          <div className="relative lg:h-[600px]">
-            <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-blue-50/80 via-white/60 to-indigo-50/80 backdrop-blur-sm">
+          <div className="relative lg:h-[600px] order-first lg:order-last">
+            <div className="relative w-full h-[400px] lg:h-full rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-blue-50/80 via-white/60 to-indigo-50/80 backdrop-blur-sm">
               {/* Background Pattern */}
               <div className="absolute inset-0 bg-gradient-to-br from-blue-100/30 via-transparent to-indigo-100/30"></div>
               
@@ -105,20 +105,20 @@ const HomePage = () => {
                   <img 
                     src={doctorImg} 
                     alt="Professional Doctor" 
-                    className="relative w-72 h-72 object-cover rounded-full shadow-2xl border-4 border-white/80 backdrop-blur-sm"
+                    className="relative w-48 h-48 lg:w-72 lg:h-72 object-cover rounded-full shadow-2xl border-4 border-white/80 backdrop-blur-sm"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-blue-900/10 via-transparent to-white/5 rounded-full"></div>
                 </div>
               </div>
               
               {/* Overlay Text */}
-              <div className="absolute bottom-8 left-8 right-8 text-center bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-xl">
-                <p className="text-xl font-bold text-gray-900">Professional Healthcare</p>
-                <p className="text-gray-600">Trusted by thousands of patients</p>
+              <div className="absolute bottom-4 left-4 right-4 lg:bottom-8 lg:left-8 lg:right-8 text-center bg-white/90 backdrop-blur-sm rounded-2xl p-3 lg:p-4 shadow-xl">
+                <p className="text-lg lg:text-xl font-bold text-gray-900">Professional Healthcare</p>
+                <p className="text-sm lg:text-base text-gray-600">Trusted by thousands of patients</p>
               </div>
               
-              {/* Floating Cards */}
-              <div className="absolute top-4 -left-6 bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-4 border border-gray-100 hover:shadow-3xl transition-all hover:-translate-y-2 hover:scale-105">
+              {/* Floating Cards - Hidden on mobile */}
+              <div className="hidden lg:block absolute top-4 -left-6 bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-4 border border-gray-100 hover:shadow-3xl transition-all hover:-translate-y-2 hover:scale-105">
                 <div className="flex items-center space-x-3">
                   <div className="w-14 h-14 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow-lg">
                     <span className="text-2xl">⭐</span>
@@ -130,7 +130,7 @@ const HomePage = () => {
                 </div>
               </div>
               
-              <div className="absolute top-32 -right-6 bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-4 border border-gray-100 hover:shadow-3xl transition-all hover:-translate-y-2 hover:scale-105">
+              <div className="hidden lg:block absolute top-32 -right-6 bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-4 border border-gray-100 hover:shadow-3xl transition-all hover:-translate-y-2 hover:scale-105">
                 <div className="flex items-center space-x-3">
                   <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center shadow-lg">
                     <span className="text-2xl">✅</span>
@@ -142,7 +142,7 @@ const HomePage = () => {
                 </div>
               </div>
               
-              <div className="absolute bottom-32 -left-6 bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-4 border border-gray-100 hover:shadow-3xl transition-all hover:-translate-y-2 hover:scale-105">
+              <div className="hidden lg:block absolute bottom-32 -left-6 bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-4 border border-gray-100 hover:shadow-3xl transition-all hover:-translate-y-2 hover:scale-105">
                 <div className="flex items-center space-x-3">
                   <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center shadow-lg">
                     <span className="text-2xl">🩺</span>
