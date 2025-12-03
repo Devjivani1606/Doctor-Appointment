@@ -42,6 +42,20 @@ const MyProfilePage = () => {
         });
     };
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setFormData({
+                    ...formData,
+                    image: reader.result
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     const handleUpdateProfile = async () => {
         try {
             const userType = localStorage.getItem('userType');
@@ -55,7 +69,10 @@ const MyProfilePage = () => {
             if (res.data.success) {
                 alert('Profile updated successfully');
                 setUserData(res.data.data);
+                setFormData(res.data.data);
                 setIsEditing(false);
+                // Refresh the page data
+                await fetchUserData();
             }
         } catch (err) {
             console.log(err);
@@ -143,6 +160,20 @@ const MyProfilePage = () => {
                                                 <span className="font-medium">{userData.about}</span>
                                             </div>
                                         )}
+                                        <div className="py-3 border-b">
+                                            <span className="text-gray-600 block mb-2">Profile Photo:</span>
+                                            {userData?.image ? (
+                                                <img 
+                                                    src={userData.image} 
+                                                    alt="Doctor" 
+                                                    className="w-20 h-20 rounded-full object-cover border-2 border-blue-200"
+                                                />
+                                            ) : (
+                                                <div className="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xl border-2 border-blue-200">
+                                                    {userData?.name?.charAt(0) || 'D'}
+                                                </div>
+                                            )}
+                                        </div>
                                     </>
                                 )}
                             </div>
@@ -272,6 +303,28 @@ const MyProfilePage = () => {
                                                     value={formData.timings?.end || ''}
                                                     onChange={(e) => setFormData({...formData, timings: {...formData.timings, end: e.target.value}})}
                                                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">Profile Photo</label>
+                                            <div className="flex items-center gap-4">
+                                                {formData.image ? (
+                                                    <img 
+                                                        src={formData.image} 
+                                                        alt="Preview" 
+                                                        className="w-16 h-16 rounded-full object-cover border-2 border-blue-200"
+                                                    />
+                                                ) : (
+                                                    <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold border-2 border-blue-200">
+                                                        {formData?.name?.charAt(0) || 'D'}
+                                                    </div>
+                                                )}
+                                                <input
+                                                    type="file"
+                                                    accept="image/*"
+                                                    onChange={handleImageChange}
+                                                    className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                                                 />
                                             </div>
                                         </div>

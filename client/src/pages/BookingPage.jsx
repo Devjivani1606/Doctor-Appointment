@@ -174,9 +174,17 @@ const BookingPage = () => {
                         {doctor && (
                             <div className="space-y-4">
                                 <div className="flex items-start gap-4">
-                                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <span className="text-white text-2xl font-bold">👨⚕️</span>
-                                    </div>
+                                    {doctor.image ? (
+                                        <img 
+                                            src={doctor.image} 
+                                            alt={`Dr. ${doctor.name}`} 
+                                            className="w-16 h-16 rounded-lg object-cover flex-shrink-0 border-2 border-blue-200"
+                                        />
+                                    ) : (
+                                        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span className="text-white text-2xl font-bold">{doctor.name?.charAt(0) || 'D'}</span>
+                                        </div>
+                                    )}
                                     <div>
                                         <h3 className="text-xl font-bold">Dr. {doctor.name}</h3>
                                         <p className="text-sm bg-blue-100 text-blue-800 inline-block px-3 py-1 rounded mt-2">{doctor.specialization}</p>

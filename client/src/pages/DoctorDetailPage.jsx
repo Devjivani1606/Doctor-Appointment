@@ -84,9 +84,17 @@ const DoctorDetailPage = () => {
                         <div className="flex flex-col md:flex-row gap-8 -mt-16 mb-8">
                             {/* Avatar */}
                             <div className="flex-shrink-0">
-                                <div className="w-40 h-40 rounded-full bg-white shadow-2xl border-4 border-blue-600 flex items-center justify-center text-6xl font-bold text-blue-600">
-                                    {doctor.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
-                                </div>
+                                {doctor.image ? (
+                                    <img 
+                                        src={doctor.image} 
+                                        alt={`Dr. ${doctor.name}`} 
+                                        className="w-40 h-40 rounded-full bg-white shadow-2xl border-4 border-blue-600 object-cover"
+                                    />
+                                ) : (
+                                    <div className="w-40 h-40 rounded-full bg-white shadow-2xl border-4 border-blue-600 flex items-center justify-center text-6xl font-bold text-blue-600">
+                                        {doctor.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
+                                    </div>
+                                )}
                             </div>
 
                             {/* Basic Info */}

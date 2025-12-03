@@ -26,7 +26,7 @@ const updateProfileController = async (req, res) => {
             "name", "email", "phone",
             "specialization", "experience",
             "fees", "about", "timings",
-            "location", "qualifications"
+            "location", "qualifications", "image"
         ];
 
         allowedFields.forEach(field => {
@@ -35,7 +35,7 @@ const updateProfileController = async (req, res) => {
             }
         });
 
-        // Handle image upload
+        // Handle file upload (if using multer)
         if (req.file) {
             updatedData.image = `/uploads/${req.file.filename}`;
         }
