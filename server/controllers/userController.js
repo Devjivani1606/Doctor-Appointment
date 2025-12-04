@@ -73,4 +73,37 @@ const updateUserProfileController = async (req, res) => {
     }
 };
 
-module.exports = { loginController, registerController, authController, updateUserProfileController };
+const getCompletedAppointmentsController = async (req, res) => {
+    try {
+        const appointmentModel = require('../models/appointmentModel');
+        const appointments = await appointmentModel.find({ 
+            userId: req.body.userId, 
+            status: 'completed' 
+        });
+        
+        res.status(200).send({ success: true, data: appointments });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ success: false, message: 'Error fetching appointments', error });
+    }
+};
+
+const submitFeedbackController = async (req, res) => {
+    try {
+        const appointmentModel = require('../models/appointmentModel');
+        const { appointmentId, doctorId, rating, feedback } = req.body;
+        
+        await appointmentModel.findByIdAndUpdate(appointmentId, {
+            feedbackGiven: true,
+            rating,
+            feedback
+        });
+        
+        res.status(200).send({ success: true, message: 'Feedback submitted successfully' });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ success: false, message: 'Error submitting feedback', error });
+    }
+};
+
+module.exports = { loginController, registerController, authController, updateUserProfileController, getCompletedAppointmentsController, submitFeedbackController };

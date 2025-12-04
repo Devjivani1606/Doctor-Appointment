@@ -30,6 +30,18 @@ const appointmentSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    feedbackGiven: {
+        type: Boolean,
+        default: false,
+    },
+    rating: {
+        type: Number,
+        min: 1,
+        max: 5,
+    },
+    feedback: {
+        type: String,
+    },
 }, { timestamps: true });
 
 const appointmentModel = mongoose.model('appointments', appointmentSchema);

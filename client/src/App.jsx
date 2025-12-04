@@ -13,6 +13,7 @@ import AboutUs from './pages/AboutUs';
 import Appointments from './pages/Appointments';
 import MyProfilePage from './pages/MyProfilePage';
 import DoctorDetailPage from './pages/DoctorDetailPage';
+import PatientFeedback from './pages/PatientFeedback';
 
 function AppContent() {
     const location = useLocation();
@@ -34,6 +35,7 @@ function AppContent() {
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/appointments" element={<Appointments />} />
                 <Route path="/my-profile" element={<MyProfilePage />} />
+                <Route path="/patient-feedback" element={<PatientFeedback />} />
             </Routes>
             {shouldShowHeader && <Footer />}
         </div>

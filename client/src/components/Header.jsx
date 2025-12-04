@@ -38,6 +38,7 @@ const Header = () => {
                     {userType !== 'doctor' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/all-doctors')}>All Doctors</button>}
                     <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/about')}>About Us</button>
                     {isLoggedIn && userType === 'patient' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/appointments')}>Appointments</button>}
+                    {isLoggedIn && userType === 'patient' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/patient-feedback')}>Feedback</button>}
                     {isLoggedIn && userType === 'doctor' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/doctor-dashboard')}>Dashboard</button>}
                     {isLoggedIn && userType === 'doctor' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/my-profile')}>My Profile</button>}
                 </nav>
@@ -99,6 +100,7 @@ const Header = () => {
                         {userType !== 'doctor' && <button className="text-left text-gray-700 hover:text-blue-600 py-2" onClick={() => { navigate('/all-doctors'); setIsMobileMenuOpen(false); }}>All Doctors</button>}
                         <button className="text-left text-gray-700 hover:text-blue-600 py-2" onClick={() => { navigate('/about'); setIsMobileMenuOpen(false); }}>About Us</button>
                         {isLoggedIn && userType === 'patient' && <button className="text-left text-gray-700 hover:text-blue-600 py-2" onClick={() => { navigate('/appointments'); setIsMobileMenuOpen(false); }}>Appointments</button>}
+                        {isLoggedIn && userType === 'patient' && <button className="text-left text-gray-700 hover:text-blue-600 py-2" onClick={() => { navigate('/patient-feedback'); setIsMobileMenuOpen(false); }}>Feedback</button>}
                         {isLoggedIn && userType === 'doctor' && <button className="text-left text-gray-700 hover:text-blue-600 py-2" onClick={() => { navigate('/doctor-dashboard'); setIsMobileMenuOpen(false); }}>Dashboard</button>}
                         {isLoggedIn && userType === 'doctor' && <button className="text-left text-gray-700 hover:text-blue-600 py-2" onClick={() => { navigate('/my-profile'); setIsMobileMenuOpen(false); }}>My Profile</button>}
                         
