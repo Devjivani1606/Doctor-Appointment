@@ -34,7 +34,7 @@ const DoctorCard = ({
       <div className="relative h-48 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center">
         {image ? (
           <img
-            src={`http://localhost:8080${image}`}
+            src={image.startsWith('data:') ? image : `http://localhost:8080${image}`}
             alt={name}
             className="w-24 h-24 rounded-full object-cover shadow-lg border-4 border-white"
           />

@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema({
     phone: { type: String },           // ✅ Add
     timings: { type: Object },         // ✅ Add
     image: { type: String },           // Doctor image URL
+    availableSlots: [{
+        day: { type: String, enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] },
+        timeSlots: [{ type: String }]  // Array of time slots like ['09:00', '10:00', '11:00']
+    }],
 
     seenNotifications: {
         type: Array,

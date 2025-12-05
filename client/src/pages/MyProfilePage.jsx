@@ -24,8 +24,13 @@ const MyProfilePage = () => {
                 headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
             });
             if (res.data.success) {
-                setUserData(res.data.data);
-                setFormData(res.data.data);
+                const userData = res.data.data;
+                // Initialize availableSlots if not present
+                if (userData.isDoctor && !userData.availableSlots) {
+                    userData.availableSlots = [];
+                }
+                setUserData(userData);
+                setFormData(userData);
                 setLoading(false);
             }
         } catch (err) {
@@ -63,6 +68,7 @@ const MyProfilePage = () => {
                 ? 'http://localhost:5000/api/v1/doctor/updateProfile'
                 : 'http://localhost:5000/api/v1/user/updateUserProfile';
             
+            console.log('Updating profile with data:', formData);
             const res = await axios.post(endpoint, formData, {
                 headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
             });
@@ -75,7 +81,7 @@ const MyProfilePage = () => {
                 await fetchUserData();
             }
         } catch (err) {
-            console.log(err);
+            console.log('Update error:', err);
             alert('Error updating profile');
         }
     };
@@ -174,6 +180,21 @@ const MyProfilePage = () => {
                                                 </div>
                                             )}
                                         </div>
+                                        {userData?.availableSlots && userData.availableSlots.length > 0 && (
+                                            <div className="py-3 border-b">
+                                                <span className="text-gray-600 block mb-2">Available Time Slots:</span>
+                                                <div className="space-y-2">
+                                                    {userData.availableSlots.map((daySlot, index) => (
+                                                        daySlot.timeSlots && daySlot.timeSlots.length > 0 && (
+                                                            <div key={index} className="text-sm">
+                                                                <span className="font-medium text-gray-700">{daySlot.day}:</span>
+                                                                <span className="ml-2 text-gray-600">{daySlot.timeSlots.join(', ')}</span>
+                                                            </div>
+                                                        )
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
                                     </>
                                 )}
                             </div>
@@ -286,26 +307,54 @@ const MyProfilePage = () => {
                                                 placeholder="Enter your qualifications (e.g., MBBS, MD)"
                                             />
                                         </div>
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
-                                                <input
-                                                    type="time"
-                                                    value={formData.timings?.start || ''}
-                                                    onChange={(e) => setFormData({...formData, timings: {...formData.timings, start: e.target.value}})}
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                                />
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">End Time</label>
-                                                <input
-                                                    type="time"
-                                                    value={formData.timings?.end || ''}
-                                                    onChange={(e) => setFormData({...formData, timings: {...formData.timings, end: e.target.value}})}
-                                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                                />
+
+                                        
+                                        {/* Available Time Slots */}
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Available Time Slots</label>
+                                            <div className="space-y-4">
+                                                {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => {
+                                                    const daySlots = formData.availableSlots?.find(slot => slot.day === day)?.timeSlots || [];
+                                                    return (
+                                                        <div key={day} className="border border-gray-200 rounded-lg p-4">
+                                                            <h4 className="font-medium text-gray-700 mb-2">{day}</h4>
+                                                            <div className="grid grid-cols-4 gap-2">
+                                                                {['09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'].map((time) => (
+                                                                    <label key={time} className="flex items-center space-x-2">
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            checked={daySlots.includes(time)}
+                                                                            onChange={(e) => {
+                                                                                const currentSlots = formData.availableSlots || [];
+                                                                                const dayIndex = currentSlots.findIndex(slot => slot.day === day);
+                                                                                let newSlots = [...currentSlots];
+                                                                                
+                                                                                if (dayIndex === -1) {
+                                                                                    newSlots.push({ day, timeSlots: e.target.checked ? [time] : [] });
+                                                                                } else {
+                                                                                    const currentTimeSlots = newSlots[dayIndex].timeSlots;
+                                                                                    if (e.target.checked) {
+                                                                                        newSlots[dayIndex].timeSlots = [...currentTimeSlots, time];
+                                                                                    } else {
+                                                                                        newSlots[dayIndex].timeSlots = currentTimeSlots.filter(t => t !== time);
+                                                                                    }
+                                                                                }
+                                                                                
+                                                                                console.log('Updated slots:', newSlots);
+                                                                                setFormData({...formData, availableSlots: newSlots});
+                                                                            }}
+                                                                            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                                                        />
+                                                                        <span className="text-sm">{time}</span>
+                                                                    </label>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
                                             </div>
                                         </div>
+                                        
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 mb-1">Profile Photo</label>
                                             <div className="flex items-center gap-4">

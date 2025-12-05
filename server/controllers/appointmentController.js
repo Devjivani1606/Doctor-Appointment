@@ -34,6 +34,17 @@ const bookAppointmentController = async (req, res) => {
                 return res.status(400).send({ success: false, message: 'You selected wrong time or date' });
             }
         }
+        
+        // Check if doctor is available at selected time
+        const userModel = require('../models/userModel');
+        const doctor = await userModel.findById(req.body.doctorId);
+        if (doctor && doctor.availableSlots) {
+            const dayName = appointmentDate.toLocaleDateString('en-US', { weekday: 'long' });
+            const daySlots = doctor.availableSlots.find(slot => slot.day === dayName);
+            if (!daySlots || !daySlots.timeSlots.includes(req.body.time)) {
+                return res.status(400).send({ success: false, message: 'Doctor is not available at this time' });
+            }
+        }
         // Ensure userId is set from auth middleware
         req.body.userId = req.body.userId;
         
@@ -102,6 +113,17 @@ const checkAvailabilityController = async (req, res) => {
             appointmentDateTime.setHours(hour, minute, 0, 0);
             if (appointmentDateTime < now) {
                 return res.status(400).send({ success: false, message: 'You selected wrong time or date' });
+            }
+        }
+        
+        // Check if doctor is available at selected time
+        const userModel = require('../models/userModel');
+        const doctor = await userModel.findById(doctorId);
+        if (doctor && doctor.availableSlots) {
+            const dayName = checkDate.toLocaleDateString('en-US', { weekday: 'long' });
+            const daySlots = doctor.availableSlots.find(slot => slot.day === dayName);
+            if (!daySlots || !daySlots.timeSlots.includes(time)) {
+                return res.status(400).send({ success: false, message: 'Doctor is not available at this time' });
             }
         }
         const appointments = await appointmentModel.find({ doctorId, date, time });

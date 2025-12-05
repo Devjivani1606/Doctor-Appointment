@@ -26,7 +26,7 @@ const updateProfileController = async (req, res) => {
             "name", "email", "phone",
             "specialization", "experience",
             "fees", "about", "timings",
-            "location", "qualifications", "image"
+            "location", "qualifications", "image", "availableSlots"
         ];
 
         allowedFields.forEach(field => {
