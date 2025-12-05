@@ -20,17 +20,13 @@ const BookingPage = () => {
 
     const getAvailableTimeSlots = () => {
         if (!date || !doctor?.availableSlots) {
-            console.log('No date or availableSlots:', { date, availableSlots: doctor?.availableSlots });
             return [];
         }
         
         const selectedDate = new Date(date);
         const dayName = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
-        console.log('Selected day:', dayName);
-        console.log('Doctor available slots:', doctor.availableSlots);
         
         const daySlots = doctor.availableSlots.find(slot => slot.day === dayName);
-        console.log('Found day slots:', daySlots);
         return daySlots?.timeSlots || [];
     };
 
@@ -349,33 +345,37 @@ const BookingPage = () => {
                                         </label>
                                         {date ? (
                                             getAvailableTimeSlots().length > 0 ? (
-                                                <div className="grid grid-cols-3 gap-2">
+                                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                                                     {getAvailableTimeSlots().map((slot) => (
                                                         <button
                                                             key={slot}
                                                             onClick={() => setTime(slot)}
                                                             disabled={date && isTimeInPast(date, slot)}
-                                                            className={`py-2 px-3 text-sm rounded-lg border transition-all ${
+                                                            className={`py-3 px-4 text-sm font-medium rounded-xl border-2 transition-all duration-200 ${
                                                                 time === slot
-                                                                    ? 'bg-blue-600 text-white border-blue-600 shadow-md'
+                                                                    ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white border-blue-600 shadow-lg transform scale-105'
                                                                     : date && isTimeInPast(date, slot)
-                                                                    ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
-                                                                    : 'bg-white text-gray-700 border-gray-300 hover:border-blue-400 hover:bg-blue-50'
+                                                                    ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed opacity-50'
+                                                                    : 'bg-white text-blue-600 border-blue-200 hover:border-blue-400 hover:bg-blue-50 hover:shadow-md active:scale-95'
                                                             }`}
                                                         >
+                                                            <FaClock className="inline mr-1 text-xs" />
                                                             {slot}
                                                         </button>
                                                     ))}
                                                 </div>
                                             ) : (
-                                                <div className="text-center py-4 text-gray-500">
-                                                    <p>Doctor is not available on this day</p>
-                                                    <p className="text-sm">Please select another date</p>
+                                                <div className="text-center py-6 bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl border border-orange-200">
+                                                    <FaClock className="text-3xl text-orange-400 mx-auto mb-2" />
+                                                    <p className="text-orange-600 font-medium">Doctor is not available on this day</p>
+                                                    <p className="text-orange-500 text-sm mt-1">Please select another date</p>
                                                 </div>
                                             )
                                         ) : (
-                                            <div className="text-center py-4 text-gray-400">
-                                                <p>Please select a date first</p>
+                                            <div className="text-center py-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-200">
+                                                <FaClock className="text-3xl text-blue-400 mx-auto mb-2" />
+                                                <p className="text-blue-600 font-medium">Please select a date first</p>
+                                                <p className="text-blue-500 text-sm mt-1">Available time slots will appear here</p>
                                             </div>
                                         )}
                                     </div>

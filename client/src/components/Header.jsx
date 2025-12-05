@@ -83,43 +83,92 @@ const Header = () => {
                 
                 {/* Mobile Menu Button */}
                 <button 
-                    className="md:hidden text-gray-700 hover:text-blue-600"
+                    className="md:hidden text-gray-700 hover:text-blue-600 p-2 rounded-xl hover:bg-blue-50 transition-all duration-200"
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
                     </svg>
                 </button>
             </div>
             
             {/* Mobile Menu */}
             {isMobileMenuOpen && (
-                <div className="md:hidden mt-4 bg-white rounded-lg shadow-lg p-4">
-                    <nav className="flex flex-col space-y-3">
-                        {userType !== 'doctor' && <button className="text-left text-gray-700 hover:text-blue-600 py-2" onClick={() => { navigate('/'); setIsMobileMenuOpen(false); }}>Home</button>}
-                        {userType !== 'doctor' && <button className="text-left text-gray-700 hover:text-blue-600 py-2" onClick={() => { navigate('/all-doctors'); setIsMobileMenuOpen(false); }}>All Doctors</button>}
-                        <button className="text-left text-gray-700 hover:text-blue-600 py-2" onClick={() => { navigate('/about'); setIsMobileMenuOpen(false); }}>About Us</button>
-                        {isLoggedIn && userType === 'patient' && <button className="text-left text-gray-700 hover:text-blue-600 py-2" onClick={() => { navigate('/appointments'); setIsMobileMenuOpen(false); }}>Appointments</button>}
-                        {isLoggedIn && userType === 'patient' && <button className="text-left text-gray-700 hover:text-blue-600 py-2" onClick={() => { navigate('/patient-feedback'); setIsMobileMenuOpen(false); }}>Feedback</button>}
-                        {isLoggedIn && userType === 'doctor' && <button className="text-left text-gray-700 hover:text-blue-600 py-2" onClick={() => { navigate('/doctor-dashboard'); setIsMobileMenuOpen(false); }}>Dashboard</button>}
-                        {isLoggedIn && userType === 'doctor' && <button className="text-left text-gray-700 hover:text-blue-600 py-2" onClick={() => { navigate('/my-profile'); setIsMobileMenuOpen(false); }}>My Profile</button>}
+                <div className="md:hidden mt-4 bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-2xl border border-blue-100 p-6 backdrop-blur-sm">
+                    <nav className="flex flex-col space-y-1">
+                        {userType !== 'doctor' && (
+                            <button 
+                                className="text-left text-gray-700 hover:text-blue-600 hover:bg-blue-50 py-3 px-4 rounded-xl transition-all duration-200 font-medium" 
+                                onClick={() => { navigate('/'); setIsMobileMenuOpen(false); }}
+                            >
+                                Home
+                            </button>
+                        )}
+                        {userType !== 'doctor' && (
+                            <button 
+                                className="text-left text-gray-700 hover:text-blue-600 hover:bg-blue-50 py-3 px-4 rounded-xl transition-all duration-200 font-medium" 
+                                onClick={() => { navigate('/all-doctors'); setIsMobileMenuOpen(false); }}
+                            >
+                                All Doctors
+                            </button>
+                        )}
+                        <button 
+                            className="text-left text-gray-700 hover:text-blue-600 hover:bg-blue-50 py-3 px-4 rounded-xl transition-all duration-200 font-medium" 
+                            onClick={() => { navigate('/about'); setIsMobileMenuOpen(false); }}
+                        >
+                            About Us
+                        </button>
+                        {isLoggedIn && userType === 'patient' && (
+                            <button 
+                                className="text-left text-gray-700 hover:text-blue-600 hover:bg-blue-50 py-3 px-4 rounded-xl transition-all duration-200 font-medium" 
+                                onClick={() => { navigate('/appointments'); setIsMobileMenuOpen(false); }}
+                            >
+                                Appointments
+                            </button>
+                        )}
+                        {isLoggedIn && userType === 'patient' && (
+                            <button 
+                                className="text-left text-gray-700 hover:text-blue-600 hover:bg-blue-50 py-3 px-4 rounded-xl transition-all duration-200 font-medium" 
+                                onClick={() => { navigate('/patient-feedback'); setIsMobileMenuOpen(false); }}
+                            >
+                                Feedback
+                            </button>
+                        )}
+                        {isLoggedIn && userType === 'doctor' && (
+                            <button 
+                                className="text-left text-gray-700 hover:text-blue-600 hover:bg-blue-50 py-3 px-4 rounded-xl transition-all duration-200 font-medium" 
+                                onClick={() => { navigate('/doctor-dashboard'); setIsMobileMenuOpen(false); }}
+                            >
+                                Dashboard
+                            </button>
+                        )}
+                        {isLoggedIn && userType === 'doctor' && (
+                            <button 
+                                className="text-left text-gray-700 hover:text-blue-600 hover:bg-blue-50 py-3 px-4 rounded-xl transition-all duration-200 font-medium" 
+                                onClick={() => { navigate('/my-profile'); setIsMobileMenuOpen(false); }}
+                            >
+                                My Profile
+                            </button>
+                        )}
                         
-                        <hr className="my-2" />
+                        <div className="h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent my-3"></div>
                         
                         {isLoggedIn ? (
                             <>
                                 {userType === 'patient' && (
                                     <button 
                                         onClick={() => { navigate('/my-profile'); setIsMobileMenuOpen(false); }}
-                                        className="text-left text-blue-600 hover:text-blue-800 py-2"
+                                        className="text-left text-blue-600 hover:text-blue-800 hover:bg-blue-50 py-3 px-4 rounded-xl transition-all duration-200 font-medium"
                                     >
-                                        👤 My Profile
+                                        My Profile
                                     </button>
                                 )}
-                                <div className="text-left py-2 text-gray-700">{userType === 'doctor' ? `Dr. ${userName}` : userName}</div>
+                                <div className="text-left py-3 px-4 text-gray-700 bg-blue-50 rounded-xl font-medium">
+                                    {userType === 'doctor' ? `Dr. ${userName}` : userName}
+                                </div>
                                 <button
                                     onClick={() => { localStorage.clear(); navigate('/login'); setIsMobileMenuOpen(false); }}
-                                    className="text-left text-red-500 hover:text-red-700 py-2"
+                                    className="text-left text-red-500 hover:text-red-700 hover:bg-red-50 py-3 px-4 rounded-xl transition-all duration-200 font-medium"
                                 >
                                     Logout
                                 </button>
@@ -128,13 +177,13 @@ const Header = () => {
                             <>
                                 <button 
                                     onClick={() => { navigate('/login'); setIsMobileMenuOpen(false); }}
-                                    className="text-left text-blue-600 hover:text-blue-800 py-2"
+                                    className="text-left text-blue-600 hover:text-blue-800 hover:bg-blue-50 py-3 px-4 rounded-xl transition-all duration-200 font-medium"
                                 >
                                     Login
                                 </button>
                                 <button 
                                     onClick={() => { navigate('/register'); setIsMobileMenuOpen(false); }}
-                                    className="text-left bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                                    className="text-left bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-lg"
                                 >
                                     Register
                                 </button>
