@@ -118,12 +118,6 @@ const HomePage = () => {
                 </div>
               </div>
               
-              {/* Overlay Text */}
-              <div className="absolute bottom-4 left-4 right-4 lg:bottom-8 lg:left-8 lg:right-8 text-center bg-white/90 backdrop-blur-sm rounded-2xl p-3 lg:p-4 shadow-xl">
-                <p className="text-lg lg:text-xl font-bold text-gray-900">Professional Healthcare</p>
-                <p className="text-sm lg:text-base text-gray-600">Trusted by thousands of patients</p>
-              </div>
-              
               {/* Floating Cards - Hidden on mobile */}
               <div className="hidden lg:block absolute top-4 -left-6 bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-4 border border-gray-100 hover:shadow-3xl transition-all hover:-translate-y-2 hover:scale-105">
                 <div className="flex items-center space-x-3">
@@ -160,6 +154,14 @@ const HomePage = () => {
                   </div>
                 </div>
               </div>
+              
+              {/* Overlay Text */}
+              <div className="absolute bottom-4 left-4 right-4 lg:bottom-8 lg:left-8 lg:right-8 text-center bg-white/90 backdrop-blur-sm rounded-2xl p-3 lg:p-4 shadow-xl">
+                <p className="text-lg lg:text-xl font-bold text-gray-900">Professional Healthcare</p>
+                <p className="text-sm lg:text-base text-gray-600">Trusted by thousands of patients</p>
+              </div>
+              
+
             </div>
           </div>
         </div>
@@ -390,13 +392,19 @@ const HomePage = () => {
               <span>Find Your Doctor</span>
               <FaArrowRight />
             </Link>
-            <Link
-              to="/register"
+            <button
+              onClick={() => {
+                if (localStorage.getItem('token')) {
+                  alert('You are already registered and logged in!');
+                } else {
+                  window.location.href = '/register';
+                }
+              }}
               className="inline-flex items-center justify-center space-x-2 px-8 py-4 bg-white border-2 border-blue-600 text-blue-600 rounded-xl hover:bg-blue-50 transition-all hover:-translate-y-1 font-medium text-lg"
             >
               <FaUsers />
               <span>Join Today</span>
-            </Link>
+            </button>
           </div>
         </div>
       </div>

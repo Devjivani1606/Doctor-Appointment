@@ -6,6 +6,7 @@ const Header = () => {
     const navigate = useNavigate();
     const [userName, setUserName] = useState('Guest');
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -46,23 +47,40 @@ const Header = () => {
                 {/* Desktop User Menu */}
                 <div className="hidden md:flex items-center gap-6">
                     {isLoggedIn ? (
-                        <>
-                            {userType === 'patient' && (
-                                <button 
-                                    onClick={() => navigate('/my-profile')}
-                                    className="text-blue-600 hover:text-blue-800 font-medium hover:underline"
-                                >
-                                    👤 My Profile
-                                </button>
-                            )}
-                            <span className="font-medium text-gray-700">{userType === 'doctor' ? `Dr. ${userName}` : userName}</span>
+                        <div className="relative">
                             <button
-                                onClick={() => { localStorage.clear(); navigate('/login'); }}
-                                className="text-red-500 hover:text-red-700"
+                                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                                className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 font-medium"
                             >
-                                Logout
+                                <span>{userType === 'doctor' ? `Dr. ${userName}` : userName}</span>
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
                             </button>
-                        </>
+                            {isUserMenuOpen && (
+                                <div className="absolute top-12 right-0 w-48 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50">
+                                    <div className="p-2">
+                                        <div className="px-4 py-3 bg-blue-50 rounded-lg mb-2">
+                                            <p className="font-medium text-gray-900">{userType === 'doctor' ? `Dr. ${userName}` : userName}</p>
+                                        </div>
+                                        {userType === 'patient' && (
+                                            <button
+                                                onClick={() => { navigate('/my-profile'); setIsUserMenuOpen(false); }}
+                                                className="w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 rounded-lg transition-all"
+                                            >
+                                                My Profile
+                                            </button>
+                                        )}
+                                        <button
+                                            onClick={() => { localStorage.clear(); navigate('/login'); setIsUserMenuOpen(false); }}
+                                            className="w-full text-left px-4 py-2 text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                                        >
+                                            Logout
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     ) : (
                         <>
                             <button 
