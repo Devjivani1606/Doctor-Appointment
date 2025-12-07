@@ -157,8 +157,12 @@ const getAppointmentsByDoctorController = async (req, res) => {
 
 const updateStatusController = async (req, res) => {
     try {
-        const { appointmentId, status } = req.body;
-        const appointments = await appointmentModel.findByIdAndUpdate(appointmentId, { status });
+        const { appointmentId, status, doctorInstructions } = req.body;
+        const updateData = { status };
+        if (doctorInstructions) {
+            updateData.doctorInstructions = doctorInstructions;
+        }
+        const appointments = await appointmentModel.findByIdAndUpdate(appointmentId, updateData);
         const user = await userModel.findOne({ _id: appointments.userId });
         user.unseenNotifications.push({
             type: 'status-updated',

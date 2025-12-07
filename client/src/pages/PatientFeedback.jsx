@@ -119,8 +119,8 @@ const PatientFeedback = () => {
                                                     <FaUserMd className="text-white text-xl" />
                                                 </div>
                                                 <div>
-                                                    <h3 className="font-bold text-gray-900">Dr. {appointment.doctorInfo?.name}</h3>
-                                                    <p className="text-sm text-gray-600">{appointment.doctorInfo?.specialization}</p>
+                                                    <h3 className="font-bold text-gray-900">Dr. {appointment.doctorInfo?.name || appointment.doctorId?.name || 'Unknown'}</h3>
+                                                    <p className="text-sm text-gray-600">{appointment.doctorInfo?.specialization || appointment.doctorId?.specialization || 'N/A'}</p>
                                                 </div>
                                             </div>
                                             <div className="text-right">
@@ -145,7 +145,7 @@ const PatientFeedback = () => {
                         {selectedAppointment && !selectedAppointment.feedbackGiven && (
                             <div className="bg-white rounded-xl shadow-lg p-6">
                                 <h2 className="text-xl font-bold text-gray-900 mb-4">
-                                    Provide Feedback for Dr. {selectedAppointment.doctorInfo?.name}
+                                    Provide Feedback for Dr. {selectedAppointment.doctorInfo?.name || selectedAppointment.doctorId?.name || 'Unknown'}
                                 </h2>
                                 
                                 <div className="space-y-6">
@@ -208,7 +208,21 @@ const PatientFeedback = () => {
                         {selectedAppointment && selectedAppointment.feedbackGiven && (
                             <div className="bg-green-50 border border-green-200 rounded-xl p-6">
                                 <h3 className="text-lg font-bold text-green-800 mb-2">Feedback Already Submitted</h3>
-                                <p className="text-green-700">You have already provided feedback for this appointment with Dr. {selectedAppointment.doctorInfo?.name}.</p>
+                                <p className="text-green-700">You have already provided feedback for this appointment with Dr. {selectedAppointment.doctorInfo?.name || selectedAppointment.doctorId?.name || 'Unknown'}.</p>
+                            </div>
+                        )}
+
+                        {/* Doctor Instructions Section */}
+                        {selectedAppointment && selectedAppointment.doctorInstructions && (
+                            <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+                                <h3 className="text-lg font-bold text-blue-800 mb-3 flex items-center gap-2">
+                                    <FaUserMd />
+                                    Doctor's Instructions
+                                </h3>
+                                <div className="bg-white rounded-lg p-4 border border-blue-100">
+                                    <p className="text-gray-700 whitespace-pre-wrap">{selectedAppointment.doctorInstructions}</p>
+                                </div>
+                                <p className="text-xs text-blue-600 mt-2">Please follow these instructions carefully for better recovery</p>
                             </div>
                         )}
                     </div>

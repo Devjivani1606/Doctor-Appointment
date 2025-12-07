@@ -12,6 +12,9 @@ const DoctorDashboard = () => {
         completedAppointments: 0
     });
     const [loading, setLoading] = useState(true);
+    const [showInstructionModal, setShowInstructionModal] = useState(false);
+    const [selectedAppointment, setSelectedAppointment] = useState(null);
+    const [instructions, setInstructions] = useState('');
 
     useEffect(() => {
         getDoctorInfo();
@@ -76,6 +79,34 @@ const DoctorDashboard = () => {
         } catch (error) {
             console.log(error);
             alert('Error updating appointment status');
+        }
+    };
+
+    const handleCompleteWithInstructions = (appointment) => {
+        setSelectedAppointment(appointment);
+        setShowInstructionModal(true);
+    };
+
+    const submitInstructions = async () => {
+        try {
+            const res = await axios.post('http://localhost:5000/api/v1/doctor/update-appointment-status', 
+                { 
+                    appointmentId: selectedAppointment._id, 
+                    status: 'completed',
+                    doctorInstructions: instructions 
+                },
+                { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') } }
+            );
+            if (res.data.success) {
+                getDoctorAppointments();
+                setShowInstructionModal(false);
+                setInstructions('');
+                setSelectedAppointment(null);
+                alert('Appointment completed with instructions!');
+            }
+        } catch (error) {
+            console.log(error);
+            alert('Error submitting instructions');
         }
     };
 
@@ -174,6 +205,9 @@ const DoctorDashboard = () => {
                                                 <div>
                                                     <p className="font-medium text-gray-900">{appointment.userId.name}</p>
                                                     <p className="text-sm text-gray-500">{appointment.userId.email}</p>
+                                                    {appointment.doctorInstructions && (
+                                                        <p className="text-xs text-blue-600 mt-1">✓ Instructions given</p>
+                                                    )}
                                                 </div>
                                             </td>
                                             <td className="px-4 py-3 text-sm text-gray-700">{appointment.date}</td>
@@ -207,10 +241,22 @@ const DoctorDashboard = () => {
                                                 )}
                                                 {appointment.status === 'approved' && (
                                                     <button
-                                                        onClick={() => updateAppointmentStatus(appointment._id, 'completed')}
+                                                        onClick={() => handleCompleteWithInstructions(appointment)}
                                                         className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600"
                                                     >
                                                         Mark Complete
+                                                    </button>
+                                                )}
+                                                {appointment.status === 'completed' && appointment.doctorInstructions && (
+                                                    <button
+                                                        onClick={() => {
+                                                            setSelectedAppointment(appointment);
+                                                            setInstructions(appointment.doctorInstructions);
+                                                            setShowInstructionModal(true);
+                                                        }}
+                                                        className="bg-gray-500 text-white px-3 py-1 rounded text-xs hover:bg-gray-600"
+                                                    >
+                                                        View Instructions
                                                     </button>
                                                 )}
                                             </td>
@@ -221,6 +267,58 @@ const DoctorDashboard = () => {
                         </div>
                     )}
                 </div>
+
+                {/* Instruction Modal */}
+                {showInstructionModal && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                        <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+                            <h3 className="text-xl font-bold text-gray-900 mb-4">
+                                {selectedAppointment?.status === 'completed' ? 'View Instructions' : 'Add Instructions for Patient'}
+                            </h3>
+                            <textarea
+                                value={instructions}
+                                onChange={(e) => setInstructions(e.target.value)}
+                                placeholder="Enter instructions for the patient (medicines, precautions, follow-up, etc.)"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+                                rows="6"
+                                readOnly={selectedAppointment?.status === 'completed'}
+                            />
+                            <div className="flex gap-3">
+                                {selectedAppointment?.status !== 'completed' ? (
+                                    <>
+                                        <button
+                                            onClick={submitInstructions}
+                                            className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+                                        >
+                                            Submit & Complete
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                setShowInstructionModal(false);
+                                                setInstructions('');
+                                                setSelectedAppointment(null);
+                                            }}
+                                            className="flex-1 bg-gray-400 text-white py-2 rounded-lg hover:bg-gray-500"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </>
+                                ) : (
+                                    <button
+                                        onClick={() => {
+                                            setShowInstructionModal(false);
+                                            setInstructions('');
+                                            setSelectedAppointment(null);
+                                        }}
+                                        className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+                                    >
+                                        Close
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

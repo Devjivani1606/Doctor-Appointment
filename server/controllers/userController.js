@@ -79,7 +79,7 @@ const getCompletedAppointmentsController = async (req, res) => {
         const appointments = await appointmentModel.find({ 
             userId: req.body.userId, 
             status: 'completed' 
-        });
+        }).populate('doctorId', 'name specialization');
         
         res.status(200).send({ success: true, data: appointments });
     } catch (error) {

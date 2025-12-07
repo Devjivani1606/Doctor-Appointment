@@ -42,6 +42,9 @@ const appointmentSchema = new mongoose.Schema({
     feedback: {
         type: String,
     },
+    doctorInstructions: {
+        type: String,
+    },
 }, { timestamps: true });
 
 const appointmentModel = mongoose.model('appointments', appointmentSchema);
