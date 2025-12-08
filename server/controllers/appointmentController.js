@@ -157,25 +157,41 @@ const getAppointmentsByDoctorController = async (req, res) => {
 
 const updateStatusController = async (req, res) => {
     try {
-        const { appointmentId, status, doctorInstructions } = req.body;
+        const { appointmentId, status, instructions } = req.body;
+
         const updateData = { status };
-        if (doctorInstructions) {
-            updateData.doctorInstructions = doctorInstructions;
+
+        if (instructions) {
+            updateData.instructions = instructions;
         }
-        const appointments = await appointmentModel.findByIdAndUpdate(appointmentId, updateData);
-        const user = await userModel.findOne({ _id: appointments.userId });
+
+        const appointment = await appointmentModel.findByIdAndUpdate(
+            appointmentId,
+            updateData,
+            { new: true }
+        );
+
+        const user = await userModel.findOne({ _id: appointment.userId });
+
         user.unseenNotifications.push({
             type: 'status-updated',
             message: `Your appointment has been ${status}`,
-            onClickPath: '/doctor-appointments',
+            onClickPath: '/user-appointments',
         });
+
         await user.save();
-        res.status(200).send({ success: true, message: 'Appointment Status Updated' });
+
+        res.status(200).send({
+            success: true,
+            message: 'Appointment Status Updated',
+            data: appointment,
+        });
+
     } catch (error) {
-        console.log(error);
-        res.status(500).send({ success: false, error, message: 'Error In Update Status' });
+        res.status(500).send({ success: false, error });
     }
-}
+};
+
 
 const getAppointmentsByUserIdController = async (req, res) => {
     try {
@@ -183,7 +199,7 @@ const getAppointmentsByUserIdController = async (req, res) => {
         console.log('User appointment fetch - userId:', userId);
         console.log('req.body:', req.body);
         
-        const appointments = await appointmentModel.find({ userId: userId });
+        const appointments = await appointmentModel.find({ userId: userId }).populate('doctorId', 'name specialization');
         console.log('Found user appointments:', appointments.length);
         console.log('Appointments data:', appointments);
         
