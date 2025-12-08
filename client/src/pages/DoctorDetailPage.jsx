@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { FaStar, FaComments, FaEnvelope, FaPhone, FaMapMarkerAlt, FaClock, FaGraduationCap, FaFileAlt, FaHospital, FaVideo, FaUserCheck, FaClipboardList, FaCalendarAlt, FaArrowRight, FaArrowLeft, FaTimes } from 'react-icons/fa';
 
 const DoctorDetailPage = () => {
     const { doctorId } = useParams();
@@ -50,7 +51,10 @@ const DoctorDetailPage = () => {
         return (
             <div className="flex items-center justify-center min-h-screen">
                 <div className="text-center">
-                    <p className="text-gray-600 text-lg mb-4">❌ Doctor not found</p>
+                    <div className="flex items-center justify-center gap-2 text-gray-600 text-lg mb-4">
+                        <FaTimes className="text-red-500" />
+                        <span>Doctor not found</span>
+                    </div>
                     <button 
                         onClick={() => navigate('/all-doctors')}
                         className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
@@ -70,7 +74,7 @@ const DoctorDetailPage = () => {
                     onClick={() => navigate('/all-doctors')}
                     className="mb-6 px-4 py-2 text-blue-600 hover:text-blue-800 font-medium flex items-center gap-2"
                 >
-                    ← Back to Doctors
+                    <FaArrowLeft /> Back to Doctors
                 </button>
 
                 {/* Main Card */}
@@ -105,11 +109,11 @@ const DoctorDetailPage = () => {
                                 {/* Rating and Reviews */}
                                 <div className="flex items-center gap-4 mb-4">
                                     <div className="flex items-center gap-2">
-                                        <span className="text-2xl">⭐</span>
+                                        <FaStar className="text-2xl text-yellow-400" />
                                         <span className="text-lg font-semibold text-gray-900">4.5/5</span>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <span className="text-2xl">💬</span>
+                                        <FaComments className="text-2xl text-blue-500" />
                                         <span className="text-lg text-gray-600">250+ reviews</span>
                                     </div>
                                 </div>
@@ -140,19 +144,27 @@ const DoctorDetailPage = () => {
                             {/* Left Column */}
                             <div className="space-y-6">
                                 <div>
-                                    <h3 className="text-base font-bold text-gray-900 mb-3">📧 Contact Information</h3>
+                                    <h3 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
+                                        <FaEnvelope className="text-blue-500" />
+                                        Contact Information
+                                    </h3>
                                     <div className="bg-gray-50 p-4 rounded-lg space-y-3">
-                                        <p className="text-gray-600">
-                                            <strong>Email:</strong> {doctor.email || 'Not provided'}
-                                        </p>
-                                        <p className="text-gray-600">
-                                            <strong>Phone:</strong> {doctor.phone || '+91 XXXX XXXX XX'}
-                                        </p>
+                                        <div className="flex items-center gap-2 text-gray-600">
+                                            <FaEnvelope className="text-blue-500" />
+                                            <span><strong>Email:</strong> {doctor.email || 'Not provided'}</span>
+                                        </div>
+                                        <div className="flex items-center gap-2 text-gray-600">
+                                            <FaPhone className="text-green-500" />
+                                            <span><strong>Phone:</strong> {doctor.phone || '+91 XXXX XXXX XX'}</span>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <h3 className="text-base font-bold text-gray-900 mb-3">📍 Location</h3>
+                                    <h3 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
+                                        <FaMapMarkerAlt className="text-red-500" />
+                                        Location
+                                    </h3>
                                     <div className="bg-gray-50 p-4 rounded-lg">
                                         <p className="text-gray-600">{doctor.location || 'Location not specified'}</p>
                                     </div>
@@ -162,7 +174,10 @@ const DoctorDetailPage = () => {
                             {/* Right Column */}
                             <div className="space-y-6">
                                 <div>
-                                    <h3 className="text-base font-bold text-gray-900 mb-3">⏰ Availability</h3>
+                                    <h3 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
+                                        <FaClock className="text-purple-500" />
+                                        Availability
+                                    </h3>
                                     <div className="bg-gray-50 p-4 rounded-lg space-y-2">
                                         <p className="text-gray-600">
                                             <strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM
@@ -177,7 +192,10 @@ const DoctorDetailPage = () => {
                                 </div>
 
                                 <div>
-                                    <h3 className="text-base font-bold text-gray-900 mb-3">🎓 Qualifications</h3>
+                                    <h3 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
+                                        <FaGraduationCap className="text-indigo-500" />
+                                        Qualifications
+                                    </h3>
                                     <div className="bg-gray-50 p-4 rounded-lg">
                                         <p className="text-gray-600">
                                             {doctor.qualifications || `MD, ${doctor.specialization || 'Healthcare'}`}
@@ -192,7 +210,10 @@ const DoctorDetailPage = () => {
 
                         {/* About Section */}
                         <div className="mb-8">
-                            <h3 className="text-base font-bold text-gray-900 mb-3">📝 About</h3>
+                            <h3 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
+                                <FaFileAlt className="text-gray-500" />
+                                About
+                            </h3>
                             <div className="bg-gray-50 p-6 rounded-lg">
                                 <p className="text-gray-700 leading-relaxed">
                                     {doctor.bio || `Dr. ${doctor.name} is a highly qualified ${doctor.specialization} with ${doctor.experience || 10} years of professional experience. Specialized in treating various conditions and providing comprehensive healthcare solutions to patients.`}
@@ -202,23 +223,38 @@ const DoctorDetailPage = () => {
 
                         {/* Services Section */}
                         <div className="mb-8">
-                            <h3 className="text-base font-bold text-gray-900 mb-3">🏥 Services</h3>
+                            <h3 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
+                                <FaHospital className="text-blue-500" />
+                                Services
+                            </h3>
                             <div className="grid md:grid-cols-2 gap-4">
-                                <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-600">
-                                    <p className="font-semibold text-gray-900">In-clinic Consultation</p>
-                                    <p className="text-sm text-gray-600">Face-to-face appointments</p>
+                                <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-600 flex items-start gap-3">
+                                    <FaHospital className="text-blue-600 text-xl mt-1" />
+                                    <div>
+                                        <p className="font-semibold text-gray-900">In-clinic Consultation</p>
+                                        <p className="text-sm text-gray-600">Face-to-face appointments</p>
+                                    </div>
                                 </div>
-                                <div className="bg-green-50 p-4 rounded-lg border-l-4 border-green-600">
-                                    <p className="font-semibold text-gray-900">Online Consultation</p>
-                                    <p className="text-sm text-gray-600">Video call appointments</p>
+                                <div className="bg-green-50 p-4 rounded-lg border-l-4 border-green-600 flex items-start gap-3">
+                                    <FaVideo className="text-green-600 text-xl mt-1" />
+                                    <div>
+                                        <p className="font-semibold text-gray-900">Online Consultation</p>
+                                        <p className="text-sm text-gray-600">Video call appointments</p>
+                                    </div>
                                 </div>
-                                <div className="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-600">
-                                    <p className="font-semibold text-gray-900">Follow-up Visits</p>
-                                    <p className="text-sm text-gray-600">Regular check-ups</p>
+                                <div className="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-600 flex items-start gap-3">
+                                    <FaUserCheck className="text-purple-600 text-xl mt-1" />
+                                    <div>
+                                        <p className="font-semibold text-gray-900">Follow-up Visits</p>
+                                        <p className="text-sm text-gray-600">Regular check-ups</p>
+                                    </div>
                                 </div>
-                                <div className="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-600">
-                                    <p className="font-semibold text-gray-900">Reports & Analysis</p>
-                                    <p className="text-sm text-gray-600">Medical reports review</p>
+                                <div className="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-600 flex items-start gap-3">
+                                    <FaClipboardList className="text-orange-600 text-xl mt-1" />
+                                    <div>
+                                        <p className="font-semibold text-gray-900">Reports & Analysis</p>
+                                        <p className="text-sm text-gray-600">Medical reports review</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -236,9 +272,9 @@ const DoctorDetailPage = () => {
                                 onClick={() => navigate(`/book-appointment/${doctorId}`)}
                                 className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:shadow-xl transition-all font-semibold text-lg flex items-center justify-center gap-2"
                             >
-                                <span>📅</span>
+                                <FaCalendarAlt />
                                 <span>Book Appointment Now</span>
-                                <span>→</span>
+                                <FaArrowRight />
                             </button>
                         </div>
                     </div>

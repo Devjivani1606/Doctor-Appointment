@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import doctorImg from '../assets/doctor.jpg';
 import { 
   FaStar, FaSearch, FaArrowRight, FaUserMd, FaHeart, FaBolt,
@@ -11,6 +11,12 @@ import { BiHappyHeartEyes } from 'react-icons/bi';
 
 
 const HomePage = () => {
+  const navigate = useNavigate();
+  
+  const handleSpecialtyClick = (specialtyName) => {
+    navigate('/all-doctors', { state: { filterSpecialty: specialtyName } });
+  };
+  
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-100 py-20 lg:py-28">
       {/* Decorative Elements */}
@@ -224,16 +230,20 @@ const HomePage = () => {
 
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {[
-            { name: 'Cardiology', icon: FaHeartbeat, desc: 'Heart Care', color: 'text-red-500' },
-            { name: 'Dermatology', icon: MdSpa, desc: 'Skin Care', color: 'text-pink-500' },
-            { name: 'Pediatrics', icon: FaBaby, desc: 'Child Care', color: 'text-blue-500' },
-            { name: 'Orthopedics', icon: FaBone, desc: 'Bone Care', color: 'text-gray-600' },
-            { name: 'Neurology', icon: FaBrain, desc: 'Brain Care', color: 'text-purple-500' },
-            { name: 'Gynecology', icon: FaVenusMars, desc: 'Women Care', color: 'text-pink-600' }
+            { name: 'Cardiologist', icon: FaHeartbeat, desc: 'Heart Care', color: 'text-red-500' },
+            { name: 'Dermatologist', icon: MdSpa, desc: 'Skin Care', color: 'text-pink-500' },
+            { name: 'Pediatrician', icon: FaBaby, desc: 'Child Care', color: 'text-blue-500' },
+            { name: 'Orthopedist', icon: FaBone, desc: 'Bone Care', color: 'text-gray-600' },
+            { name: 'Neurologist', icon: FaBrain, desc: 'Brain Care', color: 'text-purple-500' },
+            { name: 'Gynecologist', icon: FaVenusMars, desc: 'Women Care', color: 'text-pink-600' }
           ].map((specialty, index) => {
             const IconComponent = specialty.icon;
             return (
-              <div key={index} className="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg border border-gray-100 hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer">
+              <div 
+                key={index} 
+                onClick={() => handleSpecialtyClick(specialty.name)}
+                className="bg-white/80 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg border border-gray-100 hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer hover:border-blue-400"
+              >
                 <IconComponent className={`text-4xl mb-3 mx-auto ${specialty.color}`} />
                 <h4 className="font-bold text-gray-900 mb-1">{specialty.name}</h4>
                 <p className="text-sm text-gray-600">{specialty.desc}</p>

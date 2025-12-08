@@ -32,8 +32,8 @@ const Header = () => {
                 <nav className="flex items-center gap-4">
                     <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/')}>Home</button>
                     <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/all-doctors')}>All Doctors</button>
-                    <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/about')}>About Us</button>
                     <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/appointments')}>Appointments</button>
+                    <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/about')}>About Us</button>
                 </nav>
             </div>
             <div className="flex items-center gap-4">

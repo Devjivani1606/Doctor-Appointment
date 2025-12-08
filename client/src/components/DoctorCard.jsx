@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { FaStar, FaTrophy, FaMapMarkerAlt, FaClock, FaCalendarAlt, FaArrowRight, FaLock } from 'react-icons/fa';
 
 const DoctorCard = ({
   id,
@@ -46,7 +47,7 @@ const DoctorCard = ({
         
         {/* Rating Badge */}
         <div className="absolute top-4 right-4 bg-white rounded-full px-3 py-1.5 shadow-md flex items-center space-x-1">
-          <span className="text-yellow-400">⭐</span>
+          <FaStar className="text-yellow-400" />
           <span className="text-sm font-semibold text-gray-900">{rating || 4.5}</span>
         </div>
       </div>
@@ -64,18 +65,18 @@ const DoctorCard = ({
         {/* Stats */}
         <div className="flex items-center gap-4 text-sm text-gray-600">
           <div className="flex items-center space-x-1">
-            <span className="text-lg">🏆</span>
+            <FaTrophy className="text-yellow-500" />
             <span>{experience || 0} yrs exp</span>
           </div>
           <div className="flex items-center space-x-1">
-            <span className="text-lg">⭐</span>
+            <FaStar className="text-yellow-400" />
             <span>{reviews || 0} reviews</span>
           </div>
         </div>
 
         {/* Location */}
         <div className="flex items-center space-x-2 text-sm text-gray-600">
-          <span className="text-lg">📍</span>
+          <FaMapMarkerAlt className="text-red-500" />
           <span className="truncate">{location || 'Not specified'}</span>
         </div>
 
@@ -84,7 +85,7 @@ const DoctorCard = ({
           {nextAvailable && (
             <div className="flex items-center justify-between text-sm">
               <div className="flex items-center space-x-2 text-gray-600">
-                <span className="text-lg">⏰</span>
+                <FaClock className="text-purple-500" />
                 <span>Next available:</span>
               </div>
               <span className="font-medium text-gray-900">{nextAvailable}</span>
@@ -111,9 +112,9 @@ const DoctorCard = ({
             onClick={handleBookClick}
             className="flex-1 px-4 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all flex items-center justify-center space-x-2 font-medium text-sm group/btn"
           >
-            <span>📅</span>
+            <FaCalendarAlt />
             <span>Book Now</span>
-            <span>→</span>
+            <FaArrowRight />
           </button>
         </div>
 
@@ -121,7 +122,9 @@ const DoctorCard = ({
         {showLoginModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center border border-gray-200 animate-in">
-              <div className="text-5xl mb-4">🔐</div>
+              <div className="mb-4">
+                <FaLock className="text-5xl text-blue-600 mx-auto" />
+              </div>
               <h2 className="text-2xl font-bold text-gray-900 mb-3">Login Required</h2>
               <p className="text-gray-600 mb-6">
                 You need to log in to book an appointment. This helps us keep your medical information secure.

@@ -28,18 +28,18 @@ const Header = () => {
     const userType = localStorage.getItem('userType');
 
     return (
-        <header className="bg-gradient-to-r from-blue-50 via-cyan-50 to-sky-100 shadow-md p-4">
+        <header className="bg-white shadow-md p-4">
             <div className="flex items-center justify-between">
                 {/* Logo */}
-                <h1 className="text-2xl font-bold text-blue-600 cursor-pointer" onClick={() => navigate(userType === 'doctor' ? '/doctor-dashboard' : '/')}>DocApp</h1>
+                <h1 className="text-2xl font-bold text-blue-600 cursor-pointer" onClick={() => navigate(userType === 'doctor' ? '/doctor-dashboard' : '/')}>DocApp+</h1>
                 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center gap-4">
                     {userType !== 'doctor' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/')}>Home</button>}
                     {userType !== 'doctor' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/all-doctors')}>All Doctors</button>}
-                    <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/about')}>About Us</button>
                     {isLoggedIn && userType === 'patient' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/appointments')}>Appointments</button>}
                     {isLoggedIn && userType === 'patient' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/patient-feedback')}>Feedback</button>}
+                    <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/about')}>About Us</button>
                     {isLoggedIn && userType === 'doctor' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/doctor-dashboard')}>Dashboard</button>}
                     {isLoggedIn && userType === 'doctor' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/my-profile')}>My Profile</button>}
                 </nav>
@@ -130,12 +130,6 @@ const Header = () => {
                                 All Doctors
                             </button>
                         )}
-                        <button 
-                            className="text-left text-gray-700 hover:text-blue-600 hover:bg-blue-50 py-3 px-4 rounded-xl transition-all duration-200 font-medium" 
-                            onClick={() => { navigate('/about'); setIsMobileMenuOpen(false); }}
-                        >
-                            About Us
-                        </button>
                         {isLoggedIn && userType === 'patient' && (
                             <button 
                                 className="text-left text-gray-700 hover:text-blue-600 hover:bg-blue-50 py-3 px-4 rounded-xl transition-all duration-200 font-medium" 
@@ -152,6 +146,12 @@ const Header = () => {
                                 Feedback
                             </button>
                         )}
+                        <button 
+                            className="text-left text-gray-700 hover:text-blue-600 hover:bg-blue-50 py-3 px-4 rounded-xl transition-all duration-200 font-medium" 
+                            onClick={() => { navigate('/about'); setIsMobileMenuOpen(false); }}
+                        >
+                            About Us
+                        </button>
                         {isLoggedIn && userType === 'doctor' && (
                             <button 
                                 className="text-left text-gray-700 hover:text-blue-600 hover:bg-blue-50 py-3 px-4 rounded-xl transition-all duration-200 font-medium" 
