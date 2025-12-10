@@ -11,6 +11,7 @@ const Login = () => {
     });
     const [loading, setLoading] = useState(false);
     const [loginAsDoctor, setLoginAsDoctor] = useState(false);
+    const [loginAsAdmin, setLoginAsAdmin] = useState(false);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,6 +21,18 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
         try {
+            if (loginAsAdmin) {
+                if (formData.email === 'admin@docapp.com' && formData.password === 'admin123') {
+                    localStorage.setItem('token', 'admin-token');
+                    localStorage.setItem('userType', 'admin');
+                    alert('Admin Login Successful!');
+                    navigate('/admin-dashboard');
+                } else {
+                    alert('Invalid admin credentials!');
+                }
+                return;
+            }
+            
             const endpoint = loginAsDoctor 
                 ? 'http://localhost:5000/api/v1/doctor/doctor-login'
                 : 'http://localhost:5000/api/v1/user/login';
@@ -27,8 +40,14 @@ const Login = () => {
             if (res.data.success) {
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('userType', loginAsDoctor ? 'doctor' : 'patient');
-                alert('Login Successful! Welcome back!');
-                navigate(loginAsDoctor ? '/doctor-dashboard' : '/');
+                
+                if (loginAsDoctor && res.data.isProfileIncomplete) {
+                    alert('Welcome! Let\'s set up your profile to get started.');
+                    navigate('/doctor-onboarding');
+                } else {
+                    alert('Login Successful! Welcome back!');
+                    navigate(loginAsDoctor ? '/doctor-dashboard' : '/');
+                }
             } else {
                 alert('Login Failed: ' + res.data.message);
             }
@@ -88,18 +107,39 @@ const Login = () => {
                                 </div>
                             </div>
                             
-                            <div className="flex items-center bg-blue-50 p-4 rounded-xl border border-blue-100">
-                                <input
-                                    id="loginAsDoctor"
-                                    type="checkbox"
-                                    checked={loginAsDoctor}
-                                    onChange={(e) => setLoginAsDoctor(e.target.checked)}
-                                    className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer"
-                                />
-                                <label htmlFor="loginAsDoctor" className="ml-3 flex items-center text-sm font-medium text-gray-700 cursor-pointer">
-                                    <FaUserMd className="mr-2 text-blue-600" />
-                                    Login as Doctor
-                                </label>
+                            <div className="space-y-3">
+                                <div className="flex items-center bg-blue-50 p-4 rounded-xl border border-blue-100">
+                                    <input
+                                        id="loginAsDoctor"
+                                        type="checkbox"
+                                        checked={loginAsDoctor}
+                                        onChange={(e) => {
+                                            setLoginAsDoctor(e.target.checked);
+                                            if (e.target.checked) setLoginAsAdmin(false);
+                                        }}
+                                        className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer"
+                                    />
+                                    <label htmlFor="loginAsDoctor" className="ml-3 flex items-center text-sm font-medium text-gray-700 cursor-pointer">
+                                        <FaUserMd className="mr-2 text-blue-600" />
+                                        Login as Doctor
+                                    </label>
+                                </div>
+                                <div className="flex items-center bg-green-50 p-4 rounded-xl border border-green-100">
+                                    <input
+                                        id="loginAsAdmin"
+                                        type="checkbox"
+                                        checked={loginAsAdmin}
+                                        onChange={(e) => {
+                                            setLoginAsAdmin(e.target.checked);
+                                            if (e.target.checked) setLoginAsDoctor(false);
+                                        }}
+                                        className="h-5 w-5 text-green-600 focus:ring-green-500 border-gray-300 rounded cursor-pointer"
+                                    />
+                                    <label htmlFor="loginAsAdmin" className="ml-3 flex items-center text-sm font-medium text-gray-700 cursor-pointer">
+                                        <FaUserMd className="mr-2 text-green-600" />
+                                        Login as Admin
+                                    </label>
+                                </div>
                             </div>
                             
                             <button 

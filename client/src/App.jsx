@@ -14,6 +14,8 @@ import Appointments from './pages/Appointments';
 import MyProfilePage from './pages/MyProfilePage';
 import DoctorDetailPage from './pages/DoctorDetailPage';
 import PatientFeedback from './pages/PatientFeedback';
+import DoctorOnboarding from './pages/DoctorOnboarding';
+import AdminDashboard from './pages/AdminDashboard';
 
 function AppContent() {
     const location = useLocation();
@@ -36,6 +38,8 @@ function AppContent() {
                 <Route path="/appointments" element={<Appointments />} />
                 <Route path="/my-profile" element={<MyProfilePage />} />
                 <Route path="/patient-feedback" element={<PatientFeedback />} />
+                <Route path="/doctor-onboarding" element={<DoctorOnboarding />} />
+                <Route path="/admin-dashboard" element={<AdminDashboard />} />
             </Routes>
             {shouldShowHeader && <Footer />}
         </div>

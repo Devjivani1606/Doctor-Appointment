@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const MyProfilePage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [userData, setUserData] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({});
@@ -11,6 +12,9 @@ const MyProfilePage = () => {
 
     useEffect(() => {
         fetchUserData();
+        if (location.state?.autoEdit) {
+            setIsEditing(true);
+        }
     }, []);
 
     const fetchUserData = async () => {

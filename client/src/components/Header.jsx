@@ -31,17 +31,19 @@ const Header = () => {
         <header className="bg-white shadow-md p-4">
             <div className="flex items-center justify-between">
                 {/* Logo */}
-                <h1 className="text-2xl font-bold text-blue-600 cursor-pointer" onClick={() => navigate(userType === 'doctor' ? '/doctor-dashboard' : '/')}>DocApp+</h1>
+                <h1 className="text-2xl font-bold text-blue-600 cursor-pointer" onClick={() => navigate(userType === 'doctor' ? '/doctor-dashboard' : userType === 'admin' ? '/admin-dashboard' : '/')}>DocApp+</h1>
                 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center gap-4">
-                    {userType !== 'doctor' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/')}>Home</button>}
-                    {userType !== 'doctor' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/all-doctors')}>All Doctors</button>}
+                    {userType !== 'doctor' && userType !== 'admin' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/')}>Home</button>}
+                    {userType !== 'doctor' && userType !== 'admin' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/all-doctors')}>All Doctors</button>}
                     {isLoggedIn && userType === 'patient' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/appointments')}>Appointments</button>}
                     {isLoggedIn && userType === 'patient' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/patient-feedback')}>Feedback</button>}
-                    <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/about')}>About Us</button>
+                    {userType !== 'doctor' && userType !== 'admin' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/about')}>About Us</button>}
                     {isLoggedIn && userType === 'doctor' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/doctor-dashboard')}>Dashboard</button>}
                     {isLoggedIn && userType === 'doctor' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/my-profile')}>My Profile</button>}
+                    {isLoggedIn && userType === 'doctor' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/about')}>About Us</button>}
+                    {isLoggedIn && userType === 'admin' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/admin-dashboard')}>Admin Panel</button>}
                 </nav>
                 
                 {/* Desktop User Menu */}
@@ -114,7 +116,7 @@ const Header = () => {
             {isMobileMenuOpen && (
                 <div className="md:hidden mt-4 bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-2xl border border-blue-100 p-6 backdrop-blur-sm">
                     <nav className="flex flex-col space-y-1">
-                        {userType !== 'doctor' && (
+                        {userType !== 'doctor' && userType !== 'admin' && (
                             <button 
                                 className="text-left text-gray-700 hover:text-blue-600 hover:bg-blue-50 py-3 px-4 rounded-xl transition-all duration-200 font-medium" 
                                 onClick={() => { navigate('/'); setIsMobileMenuOpen(false); }}
@@ -122,7 +124,7 @@ const Header = () => {
                                 Home
                             </button>
                         )}
-                        {userType !== 'doctor' && (
+                        {userType !== 'doctor' && userType !== 'admin' && (
                             <button 
                                 className="text-left text-gray-700 hover:text-blue-600 hover:bg-blue-50 py-3 px-4 rounded-xl transition-all duration-200 font-medium" 
                                 onClick={() => { navigate('/all-doctors'); setIsMobileMenuOpen(false); }}

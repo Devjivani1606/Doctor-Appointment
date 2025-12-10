@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { FaUser, FaEnvelope, FaLock, FaUserMd, FaHospital, FaArrowRight, FaHeart } from 'react-icons/fa';
 
 const Register = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const isAdminAdd = location.state?.adminAdd;
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: '',
-        isDoctor: false,
+        isDoctor: isAdminAdd || false,
     });
     const [loading, setLoading] = useState(false);
 
@@ -23,8 +25,13 @@ const Register = () => {
         try {
             const res = await axios.post('http://localhost:5000/api/v1/user/register', formData);
             if (res.data.success) {
-                alert('Registration Successful! You can now login with your credentials');
-                navigate('/login');
+                if (isAdminAdd) {
+                    alert('Doctor added successfully!');
+                    navigate('/admin-dashboard');
+                } else {
+                    alert('Registration Successful! You can now login with your credentials');
+                    navigate('/login');
+                }
             } else {
                 alert('Registration Failed: ' + res.data.message);
             }
@@ -45,8 +52,8 @@ const Register = () => {
                         <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl mb-4 shadow-lg lg:hidden">
                             <FaHospital className="text-3xl text-white" />
                         </div>
-                        <h2 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
-                        <p className="text-gray-600">Fill in your details to get started</p>
+                        <h2 className="text-3xl font-bold text-gray-900 mb-2">{isAdminAdd ? 'Add New Doctor' : 'Create Account'}</h2>
+                        <p className="text-gray-600">{isAdminAdd ? 'Enter doctor details to add to system' : 'Fill in your details to get started'}</p>
                     </div>
 
                     <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
@@ -99,45 +106,67 @@ const Register = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="flex items-center bg-blue-50 p-4 rounded-xl border border-blue-100">
-                                <input
-                                    type="checkbox"
-                                    id="isDoctor"
-                                    checked={formData.isDoctor}
-                                    onChange={(e) => 
-                                        setFormData({ ...formData, isDoctor: e.target.checked })
-                                    }
-                                    className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer"
-                                />
-                                <label
-                                    htmlFor="isDoctor"
-                                    className="ml-3 flex items-center text-sm font-medium text-gray-700 cursor-pointer"
-                                >
-                                    <FaUserMd className="mr-2 text-blue-600" />
-                                    Register as a Doctor
-                                </label>
-                            </div>
+                            {!isAdminAdd && (
+                                <div className="flex items-center bg-blue-50 p-4 rounded-xl border border-blue-100">
+                                    <input
+                                        type="checkbox"
+                                        id="isDoctor"
+                                        checked={formData.isDoctor}
+                                        onChange={(e) => 
+                                            setFormData({ ...formData, isDoctor: e.target.checked })
+                                        }
+                                        className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded cursor-pointer"
+                                    />
+                                    <label
+                                        htmlFor="isDoctor"
+                                        className="ml-3 flex items-center text-sm font-medium text-gray-700 cursor-pointer"
+                                    >
+                                        <FaUserMd className="mr-2 text-blue-600" />
+                                        Register as a Doctor
+                                    </label>
+                                </div>
+                            )}
+                            {isAdminAdd && (
+                                <div className="bg-green-50 p-4 rounded-xl border border-green-100">
+                                    <div className="flex items-center text-green-700">
+                                        <FaUserMd className="mr-2" />
+                                        <span className="font-medium">Adding as Doctor Account</span>
+                                    </div>
+                                </div>
+                            )}
                             <button 
                                 type="submit" 
                                 className="w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-3 px-4 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2" 
                                 disabled={loading}
                             >
-                                {loading ? 'Creating Account...' : (
+                                {loading ? (isAdminAdd ? 'Adding Doctor...' : 'Creating Account...') : (
                                     <>
-                                        Create Account
+                                        {isAdminAdd ? 'Add Doctor' : 'Create Account'}
                                         <FaArrowRight />
                                     </>
                                 )}
                             </button>
                         </form>
-                        <div className="mt-6 text-center">
-                            <p className="text-sm text-gray-600">
-                                Already have an account?{' '}
-                                <Link to="/login" className="text-blue-600 font-bold hover:text-blue-700 hover:underline">
-                                    Sign in
-                                </Link>
-                            </p>
-                        </div>
+                        {!isAdminAdd && (
+                            <div className="mt-6 text-center">
+                                <p className="text-sm text-gray-600">
+                                    Already have an account?{' '}
+                                    <Link to="/login" className="text-blue-600 font-bold hover:text-blue-700 hover:underline">
+                                        Sign in
+                                    </Link>
+                                </p>
+                            </div>
+                        )}
+                        {isAdminAdd && (
+                            <div className="mt-6 text-center">
+                                <button
+                                    onClick={() => navigate('/admin-dashboard')}
+                                    className="text-gray-600 hover:text-gray-800 font-medium"
+                                >
+                                    ← Back to Admin Dashboard
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

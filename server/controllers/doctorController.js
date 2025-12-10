@@ -120,7 +120,16 @@ const doctorLoginController = async (req, res) => {
             return res.status(200).send({ message: 'Invalid credentials', success: false });
         }
         const token = jwt.sign({ id: doctor._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-        res.status(200).send({ message: 'Login Success', success: true, token });
+        
+        // Check if profile is incomplete
+        const isProfileIncomplete = !doctor.specialization || !doctor.experience || !doctor.fees;
+        
+        res.status(200).send({ 
+            message: 'Login Success', 
+            success: true, 
+            token,
+            isProfileIncomplete 
+        });
     } catch (error) {
         console.log(error);
         res.status(500).send({ message: `Error in Login: ${error.message}`, success: false });
@@ -151,6 +160,24 @@ const updateAppointmentStatusController = async (req, res) => {
     }
 };
 
+// Delete Doctor
+const deleteDoctorController = async (req, res) => {
+    try {
+        const { doctorId } = req.params;
+        
+        // Delete all appointments for this doctor
+        await appointmentModel.deleteMany({ doctorId });
+        
+        // Delete the doctor
+        await userModel.findByIdAndDelete(doctorId);
+        
+        res.status(200).send({ success: true, message: 'Doctor and all related data deleted successfully' });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ success: false, error, message: 'Error in deleting doctor' });
+    }
+};
+
 module.exports = { 
     getDoctorInfoController, 
     updateProfileController, 
@@ -159,5 +186,6 @@ module.exports = {
     searchDoctorsController,
     doctorLoginController,
     getDoctorAppointmentsController,
-    updateAppointmentStatusController
+    updateAppointmentStatusController,
+    deleteDoctorController
 };
