@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import doctorImg from '../assets/doctor.jpg';
+
 import { 
   FaStar, FaSearch, FaArrowRight, FaUserMd, FaHeart, FaBolt,
   FaHeartbeat, FaBaby, FaBone, FaBrain, FaVenusMars, FaCheckCircle,
@@ -23,6 +24,7 @@ const HomePage = () => {
       <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-sky-200/30 to-blue-200/30 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-l from-blue-300/30 to-cyan-300/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-gradient-to-tr from-cyan-200/20 to-sky-200/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">

@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { FiLock, FiFileText, FiCoffee } from "react-icons/fi";
 import { FiMail, FiPhone, FiMapPin } from "react-icons/fi";
+import DocAppLogo from "../assets/DocAppLogo.png";
 
 
 
@@ -18,9 +20,10 @@ const Footer = () => {
           {/* Brand Section */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center space-x-2 group">
-              <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white text-lg">🏥</span>
+             <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden">
+                   <img src={DocAppLogo} alt="DocApp Logo" className="w-full h-full object-cover" />
               </div>
+
               <span className="text-xl font-bold text-white">
                 Health<span className="text-blue-400">Care</span>Pro
               </span>
@@ -36,23 +39,23 @@ const Footer = () => {
                 href="https://facebook.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-all hover:-translate-y-1">
+                className="w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-full flex items-center justify-center transition-all hover:-translate-y-1">
                 <FaFacebook className="text-xl" />
               </a>
 
               <a 
-                href="https://twitter.com" 
+                href="https://x.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-800 hover:bg-blue-400 rounded-lg flex items-center justify-center transition-all hover:-translate-y-1">
-                <FaTwitter className="text-xl" />
+                className="w-10 h-10 bg-gray-800 hover:bg-gray-600 rounded-full flex items-center justify-center transition-all hover:-translate-y-1">
+                <FaXTwitter className="text-xl" />
               </a>
 
               <a 
                 href="https://instagram.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-800 hover:bg-pink-500 rounded-lg flex items-center justify-center transition-all hover:-translate-y-1">
+                className="w-10 h-10 bg-gray-800 hover:bg-pink-500 rounded-full flex items-center justify-center transition-all hover:-translate-y-1">
                 <FaInstagram className="text-xl" />
               </a>
 
@@ -60,7 +63,7 @@ const Footer = () => {
                 href="https://linkedin.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-800 hover:bg-blue-700 rounded-lg flex items-center justify-center transition-all hover:-translate-y-1">
+                className="w-10 h-10 bg-gray-800 hover:bg-blue-700 rounded-full flex items-center justify-center transition-all hover:-translate-y-1">
                 <FaLinkedin className="text-xl" />
               </a>
             </div>
@@ -70,10 +73,10 @@ const Footer = () => {
           <div>
             <h3 className="text-white font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><Link to="/" className="text-gray-400 hover:text-blue-400 text-sm">Home</Link></li>
-              <li><Link to="/all-doctors" className="text-gray-400 hover:text-blue-400 text-sm">Find Doctors</Link></li>
-              <li><Link to="/about" className="text-gray-400 hover:text-blue-400 text-sm">About Us</Link></li>
-              <li><Link to="/appointments" className="text-gray-400 hover:text-blue-400 text-sm">Appointments</Link></li>
+              <li><Link to="/" onClick={() => window.scrollTo(0, 0)} className="text-gray-400 hover:text-blue-400 text-sm">Home</Link></li>
+              <li><Link to="/all-doctors" onClick={() => window.scrollTo(0, 0)} className="text-gray-400 hover:text-blue-400 text-sm">Find Doctors</Link></li>
+              <li><Link to="/about" onClick={() => window.scrollTo(0, 0)} className="text-gray-400 hover:text-blue-400 text-sm">About Us</Link></li>
+              <li><Link to="/appointments" onClick={() => window.scrollTo(0, 0)} className="text-gray-400 hover:text-blue-400 text-sm">Appointments</Link></li>
             </ul>
           </div>
 
@@ -81,11 +84,11 @@ const Footer = () => {
           <div>
             <h3 className="text-white font-semibold mb-4">Services</h3>
             <ul className="space-y-2">
-              <li><Link to="/all-doctors" className="text-gray-400 hover:text-blue-400 text-sm">Find Specialists</Link></li>
-              <li><Link to="/book-appointment" className="text-gray-400 hover:text-blue-400 text-sm">Book Appointment</Link></li>
-              <li><Link to="/appointments" className="text-gray-400 hover:text-blue-400 text-sm">Manage Appointments</Link></li>
-              <li><Link to="/my-profile" className="text-gray-400 hover:text-blue-400 text-sm">My Profile</Link></li>
-              <li><Link to="/about" className="text-gray-400 hover:text-blue-400 text-sm">About Platform</Link></li>
+              <li><Link to="/all-doctors" onClick={() => window.scrollTo(0, 0)} className="text-gray-400 hover:text-blue-400 text-sm">Find Specialists</Link></li>
+              <li><Link to="/all-doctors" onClick={() => window.scrollTo(0, 0)} className="text-gray-400 hover:text-blue-400 text-sm">Book Appointment</Link></li>
+              <li><Link to="/appointments" onClick={() => window.scrollTo(0, 0)} className="text-gray-400 hover:text-blue-400 text-sm">Manage Appointments</Link></li>
+              <li><Link to="/my-profile" onClick={() => window.scrollTo(0, 0)} className="text-gray-400 hover:text-blue-400 text-sm">My Profile</Link></li>
+              <li><Link to="/about" onClick={() => window.scrollTo(0, 0)} className="text-gray-400 hover:text-blue-400 text-sm">About Platform</Link></li>
             </ul>
           </div>
 

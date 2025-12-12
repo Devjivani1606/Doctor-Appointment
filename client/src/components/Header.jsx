@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { FaStethoscope } from 'react-icons/fa';
 
 const Header = () => {
     const navigate = useNavigate();
@@ -31,7 +32,12 @@ const Header = () => {
         <header className="bg-white shadow-md p-4">
             <div className="flex items-center justify-between">
                 {/* Logo */}
-                <h1 className="text-2xl font-bold text-blue-600 cursor-pointer" onClick={() => navigate(userType === 'doctor' ? '/doctor-dashboard' : userType === 'admin' ? '/admin-dashboard' : '/')}>DocApp+</h1>
+                <h1 className="text-2xl font-bold text-blue-600 cursor-pointer flex items-center gap-2" onClick={() => navigate(userType === 'doctor' ? '/doctor-dashboard' : userType === 'admin' ? '/admin-dashboard' : '/')}>
+                    <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                        <FaStethoscope className="text-white text-sm" />
+                    </div>
+                    DocApp+
+                </h1>
                 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center gap-4">
