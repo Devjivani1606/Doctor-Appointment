@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaStethoscope } from 'react-icons/fa';
+import GooeyNav from './GooeyNav';
 
 const Header = () => {
     const navigate = useNavigate();
@@ -28,29 +29,59 @@ const Header = () => {
     const isLoggedIn = localStorage.getItem('token');
     const userType = localStorage.getItem('userType');
 
+    const getNavItems = () => {
+        const items = [];
+        
+        if (userType !== 'doctor' && userType !== 'admin') {
+            items.push({ label: 'Home', href: '#', onClick: () => navigate('/') });
+            items.push({ label: 'All Doctors', href: '#', onClick: () => navigate('/all-doctors') });
+        }
+        
+        if (isLoggedIn && userType === 'patient') {
+            items.push({ label: 'Appointments', href: '#', onClick: () => navigate('/appointments') });
+            items.push({ label: 'Feedback', href: '#', onClick: () => navigate('/patient-feedback') });
+        }
+        
+        if (isLoggedIn && userType === 'doctor') {
+            items.push({ label: 'Dashboard', href: '#', onClick: () => navigate('/doctor-dashboard') });
+            items.push({ label: 'My Profile', href: '#', onClick: () => navigate('/my-profile') });
+        }
+        
+        if (isLoggedIn && userType === 'admin') {
+            items.push({ label: 'Admin Panel', href: '#', onClick: () => navigate('/admin-dashboard') });
+        }
+        
+        if (userType !== 'admin') {
+            items.push({ label: 'About Us', href: '#', onClick: () => navigate('/about') });
+        }
+        
+        return items;
+    };
+
     return (
-        <header className="bg-white shadow-md p-4">
+        <header className="bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 shadow-lg p-4">
             <div className="flex items-center justify-between">
                 {/* Logo */}
-                <h1 className="text-2xl font-bold text-blue-600 cursor-pointer flex items-center gap-2" onClick={() => navigate(userType === 'doctor' ? '/doctor-dashboard' : userType === 'admin' ? '/admin-dashboard' : '/')}>
+                <h1 className="text-2xl font-bold text-white cursor-pointer flex items-center gap-2" onClick={() => navigate(userType === 'doctor' ? '/doctor-dashboard' : userType === 'admin' ? '/admin-dashboard' : '/')}>
                     <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
                         <FaStethoscope className="text-white text-sm" />
                     </div>
                     DocApp+
                 </h1>
                 
-                {/* Desktop Navigation */}
-                <nav className="hidden md:flex items-center gap-4">
-                    {userType !== 'doctor' && userType !== 'admin' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/')}>Home</button>}
-                    {userType !== 'doctor' && userType !== 'admin' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/all-doctors')}>All Doctors</button>}
-                    {isLoggedIn && userType === 'patient' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/appointments')}>Appointments</button>}
-                    {isLoggedIn && userType === 'patient' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/patient-feedback')}>Feedback</button>}
-                    {userType !== 'doctor' && userType !== 'admin' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/about')}>About Us</button>}
-                    {isLoggedIn && userType === 'doctor' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/doctor-dashboard')}>Dashboard</button>}
-                    {isLoggedIn && userType === 'doctor' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/my-profile')}>My Profile</button>}
-                    {isLoggedIn && userType === 'doctor' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/about')}>About Us</button>}
-                    {isLoggedIn && userType === 'admin' && <button className="text-gray-700 hover:text-blue-600" onClick={() => navigate('/admin-dashboard')}>Admin Panel</button>}
-                </nav>
+                {/* Desktop Navigation with GooeyNav */}
+                <div className="hidden md:block">
+                    <GooeyNav
+                        items={getNavItems()}
+                        particleCount={10}
+                        particleDistances={[50, 6]}
+                        particleR={60}
+                        initialActiveIndex={0}
+                        animationTime={400}
+                        timeVariance={150}
+                        colors={[1, 2, 3, 4]}
+                    />
+                </div>
                 
                 {/* Desktop User Menu */}
                 <div className="hidden md:flex items-center gap-6">
@@ -58,7 +89,7 @@ const Header = () => {
                         <div className="relative">
                             <button
                                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                                className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 font-medium"
+                                className="flex items-center space-x-2 text-white hover:text-blue-400 font-medium"
                             >
                                 <span>{userType === 'doctor' ? `Dr. ${userName}` : userName}</span>
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -93,7 +124,7 @@ const Header = () => {
                         <>
                             <button 
                                 onClick={() => navigate('/login')}
-                                className="text-blue-600 hover:text-blue-800 font-medium"
+                                className="text-white hover:text-blue-400 font-medium"
                             >
                                 Login
                             </button>
@@ -109,7 +140,7 @@ const Header = () => {
                 
                 {/* Mobile Menu Button */}
                 <button 
-                    className="md:hidden text-gray-700 hover:text-blue-600 p-2 rounded-xl hover:bg-blue-50 transition-all duration-200"
+                    className="md:hidden text-white hover:text-blue-400 p-2 rounded-xl hover:bg-gray-800 transition-all duration-200"
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
