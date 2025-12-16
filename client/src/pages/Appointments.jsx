@@ -120,7 +120,7 @@ const Appointments = () => {
                                     <div className="flex items-start justify-between mb-4">
                                         <div>
                                             <h3 className="text-lg font-bold text-gray-900">
-                                                👨‍⚕️ Dr. {a.doctorInfo?.name || 'Doctor'}
+                                                 Dr. {a.doctorInfo?.name || 'Doctor'}
                                             </h3>
                                             <p className="text-indigo-600 font-semibold text-xs mt-1">
                                                 {a.doctorInfo?.specialization || 'Specialist'}
