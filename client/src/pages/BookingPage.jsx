@@ -6,6 +6,7 @@ import {
     FaCheckCircle, FaLock, FaStar, FaMapMarkerAlt, FaGraduationCap,
     FaStethoscope, FaSpinner
 } from 'react-icons/fa';
+import Notification from '../components/Notification';
 
 const BookingPage = () => {
     const { doctorId } = useParams();
@@ -17,6 +18,7 @@ const BookingPage = () => {
     const [isAvailable, setIsAvailable] = useState(false);
     const [loading, setLoading] = useState(false);
     const [checkingAvailability, setCheckingAvailability] = useState(false);
+    const [notification, setNotification] = useState({ message: '', type: '', isVisible: false });
 
     const getAvailableTimeSlots = () => {
         if (!date || !doctor?.availableSlots) {
@@ -86,17 +88,17 @@ const BookingPage = () => {
 
     const checkAvailability = async () => {
         if (!date || !time) {
-            alert('Please select both date and time');
+            setNotification({ message: 'Please select both date and time', type: 'error', isVisible: true });
             return;
         }
 
         if (isDateInPast(date)) {
-            alert('Cannot book for a past date');
+            setNotification({ message: 'Cannot book for a past date', type: 'error', isVisible: true });
             return;
         }
 
         if (isTimeInPast(date, time)) {
-            alert('Cannot book for a past time');
+            setNotification({ message: 'Cannot book for a past time', type: 'error', isVisible: true });
             return;
         }
 
@@ -108,14 +110,14 @@ const BookingPage = () => {
             
             if (res.data.success) {
                 setIsAvailable(true);
-                alert(res.data.message || 'This slot is available!');
+                setNotification({ message: res.data.message || 'This slot is available!', type: 'success', isVisible: true });
             } else {
                 setIsAvailable(false);
-                alert(res.data.message || 'This slot is already booked');
+                setNotification({ message: res.data.message || 'This slot is already booked', type: 'error', isVisible: true });
             }
         } catch (error) {
             console.log(error);
-            alert('Error checking availability');
+            setNotification({ message: 'Error checking availability', type: 'error', isVisible: true });
         } finally {
             setCheckingAvailability(false);
         }
@@ -123,7 +125,7 @@ const BookingPage = () => {
 
     const handleBooking = async () => {
         if (!isAvailable) {
-            alert('Please check availability first');
+            setNotification({ message: 'Please check availability first', type: 'error', isVisible: true });
             return;
         }
 
@@ -140,14 +142,14 @@ const BookingPage = () => {
             });
 
             if (res.data.success) {
-                alert('Appointment booked successfully!');
-                navigate('/appointments');
+                setNotification({ message: 'Appointment booked successfully!', type: 'success', isVisible: true });
+                setTimeout(() => navigate('/appointments'), 1500);
             } else {
-                alert(res.data.message);
+                setNotification({ message: res.data.message, type: 'error', isVisible: true });
             }
         } catch (error) {
             console.log(error);
-            alert(error.response?.data?.message || 'Something went wrong');
+            setNotification({ message: error.response?.data?.message || 'Something went wrong', type: 'error', isVisible: true });
         } finally {
             setLoading(false);
         }
@@ -184,7 +186,14 @@ const BookingPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-100">
+        <>
+            <Notification 
+                message={notification.message}
+                type={notification.type}
+                isVisible={notification.isVisible}
+                onClose={() => setNotification({ ...notification, isVisible: false })}
+            />
+            <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-100">
             {/* Header */}
             <div className="bg-white/80 backdrop-blur-sm shadow-lg border-b border-gray-200">
                 <div className="container mx-auto px-4 py-6">
@@ -437,6 +446,7 @@ const BookingPage = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

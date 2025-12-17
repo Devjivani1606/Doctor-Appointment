@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaUserMd, FaHospital, FaMapMarkerAlt, FaGraduationCap, FaClock, FaRupeeSign, FaFileAlt } from 'react-icons/fa';
+import Notification from '../components/Notification';
 
 const DoctorOnboarding = () => {
     const navigate = useNavigate();
@@ -15,6 +16,7 @@ const DoctorOnboarding = () => {
         timings: { start: '09:00', end: '17:00' }
     });
     const [loading, setLoading] = useState(false);
+    const [notification, setNotification] = useState({ message: '', type: '', isVisible: false });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -36,18 +38,25 @@ const DoctorOnboarding = () => {
                 headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
             });
             if (res.data.success) {
-                alert('Profile setup completed successfully!');
-                navigate('/doctor-dashboard');
+                setNotification({ message: 'Profile setup completed successfully!', type: 'success', isVisible: true });
+                setTimeout(() => navigate('/doctor-dashboard'), 1500);
             }
         } catch (error) {
-            alert('Error: ' + (error.response?.data?.message || 'Something went wrong'));
+            setNotification({ message: 'Error: ' + (error.response?.data?.message || 'Something went wrong'), type: 'error', isVisible: true });
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 py-8 px-4">
+        <>
+            <Notification 
+                message={notification.message}
+                type={notification.type}
+                isVisible={notification.isVisible}
+                onClose={() => setNotification({ ...notification, isVisible: false })}
+            />
+            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 py-8 px-4">
             <div className="max-w-2xl mx-auto">
                 <div className="text-center mb-8">
                     <FaHospital className="text-5xl text-blue-600 mx-auto mb-4" />
@@ -200,6 +209,7 @@ const DoctorOnboarding = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

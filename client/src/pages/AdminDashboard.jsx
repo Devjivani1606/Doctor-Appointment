@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaUserMd, FaHospital, FaMapMarkerAlt, FaRupeeSign, FaClock, FaGraduationCap, FaEye, FaUsers, FaPlus, FaTrash, FaPhone, FaEnvelope } from 'react-icons/fa';
+import Notification from '../components/Notification';
 
 const AdminDashboard = () => {
     const navigate = useNavigate();
@@ -9,6 +10,7 @@ const AdminDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [selectedDoctor, setSelectedDoctor] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [notification, setNotification] = useState({ message: '', type: '', isVisible: false });
 
     useEffect(() => {
         fetchAllDoctors();
@@ -37,11 +39,11 @@ const AdminDashboard = () => {
             try {
                 const res = await axios.delete(`http://localhost:5000/api/v1/doctor/deleteDoctor/${doctorId}`);
                 if (res.data.success) {
-                    alert('Doctor deleted successfully!');
+                    setNotification({ message: 'Doctor deleted successfully!', type: 'success', isVisible: true });
                     fetchAllDoctors();
                 }
             } catch (error) {
-                alert('Error deleting doctor: ' + (error.response?.data?.message || 'Something went wrong'));
+                setNotification({ message: 'Error deleting doctor: ' + (error.response?.data?.message || 'Something went wrong'), type: 'error', isVisible: true });
             }
         }
     };
@@ -62,7 +64,14 @@ const AdminDashboard = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6">
+        <>
+            <Notification 
+                message={notification.message}
+                type={notification.type}
+                isVisible={notification.isVisible}
+                onClose={() => setNotification({ ...notification, isVisible: false })}
+            />
+            <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6">
             {/* Header */}
             <div className="mb-8">
                 <div className="bg-white rounded-2xl shadow-xl p-6 border border-blue-100">
@@ -249,6 +258,7 @@ const AdminDashboard = () => {
                 </div>
             )}
         </div>
+        </>
     );
 };
 

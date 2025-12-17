@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaUserMd, FaCalendarAlt, FaClock, FaTimes, FaCheck, FaHourglassHalf, FaBan } from 'react-icons/fa';
 import { MdDashboard } from 'react-icons/md';
+import Notification from '../components/Notification';
 
 const Appointments = () => {
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [notification, setNotification] = useState({ message: '', type: '', isVisible: false });
 
     const getAppointments = async () => {
         try {
@@ -30,12 +32,12 @@ const Appointments = () => {
                 headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
             });
             if (res.data.success) {
-                alert('Appointment cancelled successfully');
+                setNotification({ message: 'Appointment cancelled successfully', type: 'success', isVisible: true });
                 getAppointments();
             }
         } catch (err) {
             console.log(err);
-            alert('Error cancelling appointment');
+            setNotification({ message: 'Error cancelling appointment', type: 'error', isVisible: true });
         }
     };
 
@@ -74,7 +76,14 @@ const Appointments = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-100 p-6 md:p-8">
+        <>
+            <Notification 
+                message={notification.message}
+                type={notification.type}
+                isVisible={notification.isVisible}
+                onClose={() => setNotification({ ...notification, isVisible: false })}
+            />
+            <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-100 p-6 md:p-8">
             <div className="max-w-5xl mx-auto">
                 {/* Header Section */}
                 <div className="mb-8">
@@ -193,6 +202,7 @@ const Appointments = () => {
                 )}
             </div>
         </div>
+        </>
     );
 };
 

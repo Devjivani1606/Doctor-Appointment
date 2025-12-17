@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { FaUser, FaEnvelope, FaLock, FaUserMd, FaHospital, FaArrowRight, FaHeart } from 'react-icons/fa';
+import Notification from '../components/Notification';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ const Register = () => {
         isDoctor: isAdminAdd || false,
     });
     const [loading, setLoading] = useState(false);
+    const [notification, setNotification] = useState({ message: '', type: '', isVisible: false });
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,25 +28,32 @@ const Register = () => {
             const res = await axios.post('http://localhost:5000/api/v1/user/register', formData);
             if (res.data.success) {
                 if (isAdminAdd) {
-                    alert('Doctor added successfully!');
-                    navigate('/admin-dashboard');
+                    setNotification({ message: 'Doctor added successfully!', type: 'success', isVisible: true });
+                    setTimeout(() => navigate('/admin-dashboard'), 1500);
                 } else {
-                    alert('Registration Successful! You can now login with your credentials');
-                    navigate('/login');
+                    setNotification({ message: 'Registration Successful! You can now login with your credentials', type: 'success', isVisible: true });
+                    setTimeout(() => navigate('/login'), 1500);
                 }
             } else {
-                alert('Registration Failed: ' + res.data.message);
+                setNotification({ message: 'Registration Failed: ' + res.data.message, type: 'error', isVisible: true });
             }
         } catch (error) {
             console.log(error);
-            alert('Error: ' + (error.response?.data?.message || 'Something went wrong'));
+            setNotification({ message: 'Error: ' + (error.response?.data?.message || 'Something went wrong'), type: 'error', isVisible: true });
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen flex">
+        <>
+            <Notification 
+                message={notification.message}
+                type={notification.type}
+                isVisible={notification.isVisible}
+                onClose={() => setNotification({ ...notification, isVisible: false })}
+            />
+            <div className="min-h-screen flex">
             {/* Left Side - Register Form (40%) */}
             <div className="w-full lg:w-2/5 flex items-center justify-center p-8 bg-gray-50">
                 <div className="w-full max-w-md">
@@ -180,6 +189,7 @@ const Register = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

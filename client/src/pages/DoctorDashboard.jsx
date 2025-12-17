@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaCalendarAlt, FaUsers, FaDollarSign, FaCheck, FaTimes, FaEdit, FaClock } from 'react-icons/fa';
+import Notification from '../components/Notification';
 
 const DoctorDashboard = () => {
     const [doctorInfo, setDoctorInfo] = useState(null);
@@ -15,6 +16,7 @@ const DoctorDashboard = () => {
     const [showInstructionModal, setShowInstructionModal] = useState(false);
     const [selectedAppointment, setSelectedAppointment] = useState(null);
     const [instructions, setInstructions] = useState('');
+    const [notification, setNotification] = useState({ message: '', type: '', isVisible: false });
 
     useEffect(() => {
         getDoctorInfo();
@@ -74,11 +76,11 @@ const DoctorDashboard = () => {
             );
             if (res.data.success) {
                 getDoctorAppointments();
-                alert(`Appointment ${status} successfully!`);
+                setNotification({ message: `Appointment ${status} successfully!`, type: 'success', isVisible: true });
             }
         } catch (error) {
             console.log(error);
-            alert('Error updating appointment status');
+            setNotification({ message: 'Error updating appointment status', type: 'error', isVisible: true });
         }
     };
 
@@ -102,11 +104,11 @@ const DoctorDashboard = () => {
                 setShowInstructionModal(false);
                 setInstructions('');
                 setSelectedAppointment(null);
-                alert('Appointment completed with instructions!');
+                setNotification({ message: 'Appointment completed with instructions!', type: 'success', isVisible: true });
             }
         } catch (error) {
             console.log(error);
-            alert('Error submitting instructions');
+            setNotification({ message: 'Error submitting instructions', type: 'error', isVisible: true });
         }
     };
 
@@ -122,7 +124,14 @@ const DoctorDashboard = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-100 p-6">
+        <>
+            <Notification 
+                message={notification.message}
+                type={notification.type}
+                isVisible={notification.isVisible}
+                onClose={() => setNotification({ ...notification, isVisible: false })}
+            />
+            <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-cyan-100 p-6">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="mb-8">
@@ -321,6 +330,7 @@ const DoctorDashboard = () => {
                 )}
             </div>
         </div>
+        </>
     );
 };
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaEnvelope, FaLock, FaUserMd, FaHospital, FaArrowRight, FaHeart } from 'react-icons/fa';
+import Notification from '../components/Notification';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -12,6 +13,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [loginAsDoctor, setLoginAsDoctor] = useState(false);
     const [loginAsAdmin, setLoginAsAdmin] = useState(false);
+    const [notification, setNotification] = useState({ message: '', type: '', isVisible: false });
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,10 +27,10 @@ const Login = () => {
                 if (formData.email === 'admin@docapp.com' && formData.password === 'admin123') {
                     localStorage.setItem('token', 'admin-token');
                     localStorage.setItem('userType', 'admin');
-                    alert('Admin Login Successful!');
-                    navigate('/admin-dashboard');
+                    setNotification({ message: 'Admin Login Successful!', type: 'success', isVisible: true });
+                    setTimeout(() => navigate('/admin-dashboard'), 1500);
                 } else {
-                    alert('Invalid admin credentials!');
+                    setNotification({ message: 'Invalid admin credentials!', type: 'error', isVisible: true });
                 }
                 return;
             }
@@ -42,25 +44,32 @@ const Login = () => {
                 localStorage.setItem('userType', loginAsDoctor ? 'doctor' : 'patient');
                 
                 if (loginAsDoctor && res.data.isProfileIncomplete) {
-                    alert('Welcome! Let\'s set up your profile to get started.');
-                    navigate('/doctor-onboarding');
+                    setNotification({ message: 'Welcome! Let\'s set up your profile to get started.', type: 'success', isVisible: true });
+                    setTimeout(() => navigate('/doctor-onboarding'), 1500);
                 } else {
-                    alert('Login Successful! Welcome back!');
-                    navigate(loginAsDoctor ? '/doctor-dashboard' : '/');
+                    setNotification({ message: 'Login Successful! Welcome back!', type: 'success', isVisible: true });
+                    setTimeout(() => navigate(loginAsDoctor ? '/doctor-dashboard' : '/'), 1500);
                 }
             } else {
-                alert('Login Failed: ' + res.data.message);
+                setNotification({ message: 'Login Failed: ' + res.data.message, type: 'error', isVisible: true });
             }
         } catch (error) {
             console.log(error);
-            alert('Error: ' + (error.response?.data?.message || 'Something went wrong'));
+            setNotification({ message: 'Error: ' + (error.response?.data?.message || 'Something went wrong'), type: 'error', isVisible: true });
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen flex">
+        <>
+            <Notification 
+                message={notification.message}
+                type={notification.type}
+                isVisible={notification.isVisible}
+                onClose={() => setNotification({ ...notification, isVisible: false })}
+            />
+            <div className="min-h-screen flex">
             {/* Left Side - Login Form (40%) */}
             <div className="w-full lg:w-2/5 flex items-center justify-center p-8 bg-gray-50">
                 <div className="w-full max-w-md">
@@ -177,6 +186,7 @@ const Login = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 
