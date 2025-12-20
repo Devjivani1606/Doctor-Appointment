@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaStethoscope } from 'react-icons/fa';
 import GooeyNav from './GooeyNav';
+import DocAppLogo from '../assets/DocAppLogo.png';
 
 const Header = () => {
     const navigate = useNavigate();
@@ -62,10 +63,12 @@ const Header = () => {
         <header className="bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 shadow-lg p-4">
             <div className="flex items-center justify-between">
                 {/* Logo */}
-                <h1 className="text-2xl font-bold text-white cursor-pointer flex items-center gap-2" onClick={() => navigate(userType === 'doctor' ? '/doctor-dashboard' : userType === 'admin' ? '/admin-dashboard' : '/')}>
-                    <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                        <FaStethoscope className="text-white text-sm" />
-                    </div>
+                <h1 className="text-2xl font-bold text-white cursor-pointer flex items-center gap-3" onClick={() => navigate(userType === 'doctor' ? '/doctor-dashboard' : userType === 'admin' ? '/admin-dashboard' : '/')}>
+                    <img 
+                        src={DocAppLogo} 
+                        alt="DocApp+ Logo" 
+                        className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-lg"
+                    />
                     DocApp+
                 </h1>
                 

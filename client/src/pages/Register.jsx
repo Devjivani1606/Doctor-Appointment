@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { FaUser, FaEnvelope, FaLock, FaUserMd, FaHospital, FaArrowRight, FaHeart } from 'react-icons/fa';
 import Notification from '../components/Notification';
+import DocAppLogo from '../assets/DocAppLogo.png';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -58,9 +59,11 @@ const Register = () => {
             <div className="w-full lg:w-2/5 flex items-center justify-center p-8 bg-gray-50">
                 <div className="w-full max-w-md">
                     <div className="text-center mb-8">
-                        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl mb-4 shadow-lg lg:hidden">
-                            <FaHospital className="text-3xl text-white" />
-                        </div>
+                        <img 
+                            src={DocAppLogo} 
+                            alt="DocApp+ Logo" 
+                            className="w-16 h-16 rounded-full object-cover border-4 border-blue-500 shadow-lg mx-auto mb-4 lg:hidden"
+                        />
                         <h2 className="text-3xl font-bold text-gray-900 mb-2">{isAdminAdd ? 'Add New Doctor' : 'Create Account'}</h2>
                         <p className="text-gray-600">{isAdminAdd ? 'Enter doctor details to add to system' : 'Fill in your details to get started'}</p>
                     </div>
