@@ -25,7 +25,7 @@ const DoctorDashboard = () => {
 
     const getDoctorInfo = async () => {
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/doctor/getDoctorInfo', {}, {
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/doctor/getDoctorInfo', {}, {
                 headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
             });
             if (res.data.success) {
@@ -38,7 +38,7 @@ const DoctorDashboard = () => {
 
     const getDoctorAppointments = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/v1/doctor/doctor-appointments', {
+            const res = await axios.get('https://doctor-appointment-mos8.onrender.com/api/v1/doctor/doctor-appointments', {
                 headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
             });
             if (res.data.success) {
@@ -70,7 +70,7 @@ const DoctorDashboard = () => {
 
     const updateAppointmentStatus = async (appointmentId, status) => {
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/doctor/update-appointment-status', 
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/doctor/update-appointment-status', 
                 { appointmentId, status },
                 { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') } }
             );
@@ -91,7 +91,7 @@ const DoctorDashboard = () => {
 
     const submitInstructions = async () => {
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/doctor/update-appointment-status', 
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/doctor/update-appointment-status', 
                 { 
                     appointmentId: selectedAppointment._id, 
                     status: 'completed',

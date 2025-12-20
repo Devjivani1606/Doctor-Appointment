@@ -8,7 +8,7 @@ const Appointments = () => {
     const getAppointments = async () => {
         try {
             setLoading(true);
-            const res = await axios.post('http://localhost:5000/api/v1/appointment/get-appointments-by-user', {}, {
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/appointment/get-appointments-by-user', {}, {
                 headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
             });
             if (res.data.success) {
@@ -24,7 +24,7 @@ const Appointments = () => {
     const handleCancel = async (appointmentId) => {
         if (!window.confirm('Are you sure you want to cancel this appointment?')) return;
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/appointment/cancel-appointment', { appointmentId }, {
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/appointment/cancel-appointment', { appointmentId }, {
                 headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
             });
             if (res.data.success) {

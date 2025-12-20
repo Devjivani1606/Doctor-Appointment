@@ -36,8 +36,8 @@ const Login = () => {
             }
             
             const endpoint = loginAsDoctor 
-                ? 'http://localhost:5000/api/v1/doctor/doctor-login'
-                : 'http://localhost:5000/api/v1/user/login';
+                ? 'https://doctor-appointment-mos8.onrender.com/api/v1/doctor/doctor-login'
+                : 'https://doctor-appointment-mos8.onrender.com/api/v1/user/login';
             const res = await axios.post(endpoint, formData);
             if (res.data.success) {
                 localStorage.setItem('token', res.data.token);

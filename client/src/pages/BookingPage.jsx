@@ -34,7 +34,7 @@ const BookingPage = () => {
 
     const getDoctorById = async () => {
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/doctor/getDoctorById', { doctorId }, {
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/doctor/getDoctorById', { doctorId }, {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem('token'),
                 },
@@ -49,7 +49,7 @@ const BookingPage = () => {
 
     const getCurrentUser = async () => {
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/user/getUserData', {}, {
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/user/getUserData', {}, {
                 headers: { Authorization: "Bearer " + localStorage.getItem('token') }
             });
             if (res.data.success) {
@@ -104,7 +104,7 @@ const BookingPage = () => {
 
         setCheckingAvailability(true);
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/appointment/check-availability', { doctorId, date, time }, {
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/appointment/check-availability', { doctorId, date, time }, {
                 headers: { Authorization: "Bearer " + localStorage.getItem('token') }
             });
             
@@ -131,7 +131,7 @@ const BookingPage = () => {
 
         setLoading(true);
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/appointment/book-appointment', {
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/appointment/book-appointment', {
                 doctorId,
                 date,
                 time,

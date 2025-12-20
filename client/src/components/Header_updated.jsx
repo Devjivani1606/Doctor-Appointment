@@ -9,7 +9,7 @@ const Header = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await axios.post('http://localhost:5000/api/v1/user/getUserData', {}, {
+                const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/user/getUserData', {}, {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 });
                 if (res.data.success) {

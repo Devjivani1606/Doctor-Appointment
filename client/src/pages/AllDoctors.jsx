@@ -39,8 +39,8 @@ const AllDoctors = () => {
     setIsLoading(true);
     try {
       const url = term
-        ? `http://localhost:5000/api/v1/doctor/search?specialization=${encodeURIComponent(term)}`
-        : 'http://localhost:5000/api/v1/doctor/getAllDoctors';
+        ? `https://doctor-appointment-mos8.onrender.com/api/v1/doctor/search?specialization=${encodeURIComponent(term)}`
+        : 'https://doctor-appointment-mos8.onrender.com/api/v1/doctor/getAllDoctors';
       const headers = localStorage.getItem('token')
         ? { Authorization: 'Bearer ' + localStorage.getItem('token') }
         : {};

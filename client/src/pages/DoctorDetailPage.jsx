@@ -16,7 +16,7 @@ const DoctorDetailPage = () => {
 
     const fetchDoctorDetails = async () => {
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/doctor/getDoctorById', 
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/doctor/getDoctorById', 
                 { doctorId },
                 {
                     headers: localStorage.getItem('token') 

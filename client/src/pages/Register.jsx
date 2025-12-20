@@ -25,7 +25,7 @@ const Register = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/user/register', formData);
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/user/register', formData);
             if (res.data.success) {
                 if (isAdminAdd) {
                     setNotification({ message: 'Doctor added successfully!', type: 'success', isVisible: true });

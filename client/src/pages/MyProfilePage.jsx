@@ -21,8 +21,8 @@ const MyProfilePage = () => {
         try {
             const userType = localStorage.getItem('userType');
             const endpoint = userType === 'doctor' 
-                ? 'http://localhost:5000/api/v1/doctor/getDoctorInfo'
-                : 'http://localhost:5000/api/v1/user/getUserData';
+                ? 'https://doctor-appointment-mos8.onrender.com/api/v1/doctor/getDoctorInfo'
+                : 'https://doctor-appointment-mos8.onrender.com/api/v1/user/getUserData';
             
             const res = await axios.post(endpoint, {}, {
                 headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
@@ -69,8 +69,8 @@ const MyProfilePage = () => {
         try {
             const userType = localStorage.getItem('userType');
             const endpoint = userType === 'doctor' 
-                ? 'http://localhost:5000/api/v1/doctor/updateProfile'
-                : 'http://localhost:5000/api/v1/user/updateUserProfile';
+                ? 'https://doctor-appointment-mos8.onrender.com/api/v1/doctor/updateProfile'
+                : 'https://doctor-appointment-mos8.onrender.com/api/v1/user/updateUserProfile';
             
             console.log('Updating profile with data:', formData);
             const res = await axios.post(endpoint, formData, {

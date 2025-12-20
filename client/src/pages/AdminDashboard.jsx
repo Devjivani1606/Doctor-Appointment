@@ -18,7 +18,7 @@ const AdminDashboard = () => {
 
     const fetchAllDoctors = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/v1/doctor/getAllDoctors');
+            const res = await axios.get('https://doctor-appointment-mos8.onrender.com/api/v1/doctor/getAllDoctors');
             if (res.data.success) {
                 setDoctors(res.data.data);
             }
@@ -37,7 +37,7 @@ const AdminDashboard = () => {
     const deleteDoctor = async (doctorId) => {
         if (window.confirm('Are you sure you want to delete this doctor? All data will be permanently removed.')) {
             try {
-                const res = await axios.delete(`http://localhost:5000/api/v1/doctor/deleteDoctor/${doctorId}`);
+                const res = await axios.delete(`https://doctor-appointment-mos8.onrender.com/api/v1/doctor/deleteDoctor/${doctorId}`);
                 if (res.data.success) {
                     setNotification({ message: 'Doctor deleted successfully!', type: 'success', isVisible: true });
                     fetchAllDoctors();

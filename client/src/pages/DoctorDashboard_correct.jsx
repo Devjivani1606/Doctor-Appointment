@@ -11,7 +11,7 @@ const DoctorDashboard = () => {
     const getDoctorData = async () => {
         try {
             const res = await axios.post(
-                "http://localhost:5000/api/v1/user/getUserData",
+                "https://doctor-appointment-mos8.onrender.com/api/v1/user/getUserData",
                 {},
                 {
                     headers: {
@@ -36,7 +36,7 @@ const DoctorDashboard = () => {
     const getAppointments = async () => {
         try {
             const res = await axios.get(
-                "http://localhost:5000/api/v1/appointment/doctor-appointments",
+                "https://doctor-appointment-mos8.onrender.com/api/v1/appointment/doctor-appointments",
                 {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("token"),
@@ -57,7 +57,7 @@ const DoctorDashboard = () => {
     const handleApproveAppointment = async (appointmentId) => {
         try {
             const res = await axios.post(
-                "http://localhost:5000/api/v1/appointment/update-status",
+                "https://doctor-appointment-mos8.onrender.com/api/v1/appointment/update-status",
                 { appointmentId, status: 'approved' },
                 {
                     headers: {
@@ -79,7 +79,7 @@ const DoctorDashboard = () => {
     const handleRejectAppointment = async (appointmentId) => {
         try {
             const res = await axios.post(
-                "http://localhost:5000/api/v1/appointment/update-status",
+                "https://doctor-appointment-mos8.onrender.com/api/v1/appointment/update-status",
                 { appointmentId, status: 'rejected' },
                 {
                     headers: {

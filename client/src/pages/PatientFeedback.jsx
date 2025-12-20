@@ -18,10 +18,10 @@ const PatientFeedback = () => {
         try {
             // Test server connection first
             console.log('Testing server connection...');
-            const testRes = await axios.get('http://localhost:5000/api/v1/user/test');
+            const testRes = await axios.get('https://doctor-appointment-mos8.onrender.com/api/v1/user/test');
             console.log('Server test response:', testRes.data);
             
-            const res = await axios.post('http://localhost:5000/api/v1/user/completed-appointments', {}, {
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/user/completed-appointments', {}, {
                 headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
             });
             console.log('API Response:', res.data);
@@ -45,7 +45,7 @@ const PatientFeedback = () => {
 
         setSubmitting(true);
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/user/submit-feedback', {
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/user/submit-feedback', {
                 appointmentId: selectedAppointment._id,
                 doctorId: selectedAppointment.doctorId,
                 rating,

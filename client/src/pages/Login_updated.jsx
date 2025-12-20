@@ -18,7 +18,7 @@ const Login = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/user/login', formData);
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/user/login', formData);
             if (res.data.success) {
                 localStorage.setItem('token', res.data.token);
                 

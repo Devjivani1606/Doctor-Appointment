@@ -17,8 +17,8 @@ const PatientDashboard = () => {
     const getDoctors = async (term = '') => {
         try {
             const url = term 
-                ? `http://localhost:5000/api/v1/doctor/search?specialization=${encodeURIComponent(term)}` 
-                : 'http://localhost:5000/api/v1/doctor/getAllDoctors';
+                ? `https://doctor-appointment-mos8.onrender.com/api/v1/doctor/search?specialization=${encodeURIComponent(term)}` 
+                : 'https://doctor-appointment-mos8.onrender.com/api/v1/doctor/getAllDoctors';
             const res = await axios.get(url, {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem('token'),
@@ -34,7 +34,7 @@ const PatientDashboard = () => {
 
     const getAppointments = async () => {
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/appointment/get-appointments-by-user', {}, {
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/appointment/get-appointments-by-user', {}, {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem('token'),
                 },
@@ -53,7 +53,7 @@ const PatientDashboard = () => {
         }
         
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/appointment/cancel-appointment', 
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/appointment/cancel-appointment', 
                 { appointmentId },
                 {
                     headers: {
@@ -73,7 +73,7 @@ const PatientDashboard = () => {
 
     const getUserInfo = async () => {
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/user/getUserData', {}, {
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/user/getUserData', {}, {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem('token'),
                 },
@@ -90,7 +90,7 @@ const PatientDashboard = () => {
 
     const handleProfileUpdate = async () => {
         try {
-            const res = await axios.post('http://localhost:5000/api/v1/user/updateUserProfile', profileFormData, {
+            const res = await axios.post('https://doctor-appointment-mos8.onrender.com/api/v1/user/updateUserProfile', profileFormData, {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem('token'),
                 },
